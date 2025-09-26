@@ -609,6 +609,153 @@ body.scroll-off {
 
 
 
+/* ================= DESKTOP (default) ================= */
+/* keep your current styles for large screens */
+
+/* ================= TABLET ================= */
+@media (max-width: 991px) {
+
+  /* Remove absolute positioning so elements flow in order */
+  .coverd_box,
+  .spots_box,
+  .station-card,
+  .buzz-box,
+  .buzz_box_orange,
+  .fact-box,
+  .fact_box_2,
+  .third_shape_wrapper .coverd_box {
+    position: relative !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 20px auto !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+  }
+
+  /* Allow bottom section to stack */
+  .bootom_box {
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .img_box,
+  .second_img_box,
+  .img_box_small,
+  .img_box_03 {
+    text-align: center;
+    margin: 20px 0;
+  }
+
+  /* Resize big numbers and headings */
+  .number_box h4,
+  .buzz-box .big-number {
+    font-size: 80px;
+    line-height: 70px;
+  }
+
+  .heading_box h2,
+  .box_heading h2,
+  .buzz-title h2 {
+    font-size: 26px;
+    text-align: center;
+  }
+}
+
+/* ================= MOBILE ================= */
+@media (max-width: 575px) {
+
+  .section-padding {
+    padding-top: 40px;
+    padding-bottom: 40px;
+  }
+
+  /* Cards and info boxes full width */
+  .station-card,
+  .spots_box,
+  .buzz-box,
+  .buzz_box_orange,
+  .fact-box,
+  .fact_box_2,
+  .third_shape_wrapper .coverd_box {
+    width: 100% !important;
+    padding: 15px;
+    margin: 15px 0;
+  }
+
+  .station-card h3 {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  .station .name {
+    font-size: 16px;
+  }
+
+  .spot .number {
+    font-size: 16px;
+  }
+
+  .spot .time {
+    font-size: 13px;
+  }
+
+  .buzz-box .big-number {
+    font-size: 60px;
+    line-height: 55px;
+  }
+
+  .buzz-box .buzz-text {
+    font-size: 16px;
+    line-height: 20px;
+  }
+
+  .fact-box .fact-text,
+  .fact_box_2 .fact-text {
+    font-size: 16px;
+    margin-top: 10px;
+  }
+
+  /* Button full width */
+  .button_block {
+    margin: 40px 0;
+  }
+
+  .theem_btn {
+    width: 100%;
+    font-size: 14px;
+    padding: 12px;
+  }
+}
+/* Tablet */
+@media (max-width: 991px) {
+    .bootom_box .img_box_small {
+        margin-top: 0 !important; /* remove overlap */
+        text-align: center;
+    }
+
+    .img_box_small img {
+        max-width: 80%; /* scale image down */
+        height: auto;
+    }
+}
+
+/* Mobile */
+@media (max-width: 575px) {
+    .bootom_box .img_box_small {
+        margin-top: 0 !important; /* remove overlap */
+        text-align: center;
+    }
+
+    .img_box_small img {
+        max-width: 100%; /* fit screen */
+        height: auto;
+    }
+}
+
+
+
 
 
     
