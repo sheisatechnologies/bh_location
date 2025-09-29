@@ -848,6 +848,17 @@ font-family:  'Altform TRIAL', sans-serif;
   font-family: 'Altform TRIAL', sans-serif;
 }
 
+@media (max-width: 575px) {
+   .section-title{
+  max-width: 957px;
+  font-size: 27.13px;
+  font-weight: bold;
+  line-height: 120%;
+  margin: 10px auto 30px;
+  font-family: 'Altform TRIAL', sans-serif;
+}
+}
+
 .section-subtext{
   max-width: 670px;
   font-size: 20px;
