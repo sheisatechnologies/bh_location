@@ -866,7 +866,7 @@ body.scroll-off {
   max-height: 479.22px;
   overflow: hidden;
   
-  transition: transform 0.3s ease;
+ 
   margin: 0 auto;
 }
 
@@ -881,9 +881,7 @@ body.scroll-off {
 
 }
 
-.blob-img:hover {
-  transform: scale(1.05);
-}
+
 
 .icon-box {
   position: absolute;
