@@ -170,6 +170,22 @@ body.scroll-off {
     color: #9C9C9C;
 }
 
+.main-text{
+  font-size: 67.27px;
+  line-height: 120%;
+  font-weight: bold;
+  font-family: 'Altform TRIAL', sans-serif;
+ 
+}
+
+.text-with-icon{
+  font-size: 25PX;
+  line-height: 130%;
+  letter-spacing: 5%;
+  font-family: 'Altform TRIAL', sans-serif;
+  font-weight: bold;
+}
+
 /* --------------------- */
 .blob-shape {
     width: 300px;
@@ -195,13 +211,14 @@ body.scroll-off {
 }
 
 .first_shape_wrapper .coverd_box {
-    background-color: #FF9222;
+       background-color: #FF9222;
     padding: 20px;
     border-radius: 10px;
     max-width: 441px;
     position: absolute;
     top: 216px;
-    z-index: 1
+    left: 75px;
+    z-index: 1;
 }
 
 .box_heading {
@@ -238,27 +255,28 @@ body.scroll-off {
 }
 
 .spots_box {
-    padding: 16px;
+   padding: 16px;
     border-radius: 10px;
     background-color: #FF4602;
     width: 537px;
     position: absolute;
-    right: 22px;
-    top: 316px;
+    right: 120px;
+    top: 299px;
+    padding-bottom: 0;
 }
 .heading_box{
      border-bottom: 2px solid #fff;
 }
 .heading_box h2{
      color: #fff;
-    font-size: 61px;
+    font-size: 47px;
     font-weight: bold;
     text-transform: uppercase;
     margin: 0;
 }
 
 .list_block{
-    margin-top: 100px;
+    margin-top: 53px;
 }
 .list_block ul{
     padding: 0;
@@ -290,9 +308,22 @@ body.scroll-off {
   white-space: nowrap;
 }
 
+.bottom-text{
+  color: white;
+  font-size: 20px;
+ line-height: 130%;
+
+letter-spacing: 5%;
+font-family:  'Altform TRIAL', sans-serif;
+  font-weight: normal; /* uses Altform Regular */;
+}
+
+.bottom-text-station{
+  color: black;
+}
 
 .station-card {
-  width: 440px;
+  width: 590px;
   border: 2px solid #000000;
   border-radius: 10px;
   padding: 20px;
@@ -300,10 +331,11 @@ body.scroll-off {
   background-color: #fff;
   margin-left: 107px;
   margin-top: 26px;
+  padding-bottom: 0;
 }
 
 .station-card h3 {
-  margin-bottom: 90px;
+  margin-bottom: 45px;
   font-size: 32px;
   font-weight: bold;
   border-bottom: 2px solid #000000;
@@ -312,10 +344,37 @@ body.scroll-off {
 
 
 .station {
-  display: flex;
-  align-items: center;
-  margin-bottom: 27px;
-  gap: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* pushes left content and right content apart */
+    margin-bottom: 27px;
+}
+
+.station-left {
+    display: flex;
+    align-items: center;
+    gap: 5px; /* spacing between train icon and station details */
+}
+
+.right_details {
+    display: flex;
+    flex-direction: column; /* keeps blue line below station name */
+}
+
+.station-time {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 23.45px;
+    font-weight: bold;
+    font-family:  'Altform TRIAL', sans-serif;
+  font-weight: bold; /* uses Altform Regular */;
+  margin-top: -27px;
+}
+
+.station-time .time-logo {
+    width: 16.36px;
+    height: 26.84px;
 }
 .station:last-child{
     margin-bottom: 0;
@@ -342,6 +401,8 @@ body.scroll-off {
     display: flex;
     flex-direction: column;
 }
+
+
 
 .section_wrapper.top_space{
     margin-top: 106px;
@@ -404,15 +465,16 @@ body.scroll-off {
 
 
 .fact-box {
-    background-color: #0051ce;
+       background-color: #0051ce;
     color: white;
     padding: 15px;
     width: 339px;
     border-radius: 10px;
     position: absolute;
     right: 135px;
-    top: -81px;
+    top: -117px;
     z-index: 1;
+
 }
 
 .fact-box .icon {
@@ -430,13 +492,14 @@ body.scroll-off {
 
 
 .fact_box_2 {
-    background-color: #168771;
+   background-color: #168771;
     color: white;
     padding: 15px;
     width: 339px;
     border-radius: 10px;
     position: relative;
     margin-top: -74px;
+    margin-left: 177px;
 }
 
 .fact_box_2 .icon {
@@ -479,8 +542,9 @@ body.scroll-off {
     border-radius: 10px;
     max-width: 441px;
     position: absolute;
-    top: 24px;
+    top: 105px;
     z-index: 1;
+    left: 67px;
 }
 
 .third_shape_wrapper .fact-box{
@@ -665,6 +729,20 @@ body.scroll-off {
 
 /* ================= MOBILE ================= */
 @media (max-width: 575px) {
+
+
+  .main-text{
+  font-size: 39px;
+  line-height: 120%;
+  font-weight: bold;
+  font-family: 'Altform TRIAL', sans-serif;
+  max-width: 338px;
+ 
+}
+
+.text-with-icon{
+  font-size: 11.62px;
+}
 
   .section-padding {
     padding-top: 40px;
@@ -999,6 +1077,11 @@ body.scroll-off {
 }
 
 @media (max-width: 576px) {
+
+  .icon-img{
+    width: 7px;
+    height: 11px;
+  }
   .overlay-box {
     transform: translateY(-50px);
   }
@@ -1054,6 +1137,21 @@ body.scroll-off {
   .overlay-box {
     transform: translateY(-45px);
   }
+}
+
+
+/* Default button style: blurred/inactive */
+.filter-btn {
+  opacity: 0.5;        /* makes it look faded */
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+/* Active button style */
+.filter-btn.active {
+  opacity: 1;           /* fully visible */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.2); /* optional highlight */
+  transform: scale(1.05); /* optional zoom effect */
 }
 
 

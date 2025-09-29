@@ -1328,4 +1328,25 @@
     });
   </script>
 
-  
+  <script>
+    // Select all filter buttons
+const filterButtons = document.querySelectorAll('.filter-btn');
+
+filterButtons.forEach(btn => {
+  btn.addEventListener('click', () => {
+    // Remove active class from all buttons
+    filterButtons.forEach(b => b.classList.remove('active'));
+
+    // Add active class to clicked button
+    btn.classList.add('active');
+
+    // Optional: handle your content filter here
+    const target = btn.dataset.target;
+    const sections = document.querySelectorAll('.spots-section');
+    sections.forEach(sec => {
+      sec.classList.toggle('d-none', sec.dataset.section !== target);
+    });
+  });
+});
+
+  </script>
