@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blob Video on Hover</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      background: #fff;
+    }
+    .blob-wrapper {
+      position: relative;
+      width: 100%;
+      height: 600px; /* fixed height, can adjust */
+      overflow: hidden;
+    }
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      z-index: 1;
+    }
+    h1 {
+      position: relative;
+      z-index: 3;
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-align: center;
+      margin: 0;
+      color: #000;
+      padding-top: 20px;
+    }
+    .blob-button {
+      position: absolute;
+      padding: 10px 20px;
+      background-color: red;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      z-index: 4;
+      font-size: 14px;
+      pointer-events: none;
+    }
+    .blob-button.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    video {
+      display: none; /* hidden, drawn on canvas */
+    }
+  </style>
+</head>
+<body>
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col-12">
+      <div class="blob-wrapper">
+        <canvas id="blobCanvas"></canvas>
+        <h1>THREE VIBRANT<br>DISTRICTS</h1>
+        <button id="blobBtn" class="blob-button">EXPLORE</button>
+        <video id="blobVideo" src="street.mp4" muted loop></video>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+const canvas = document.getElementById("blobCanvas");
+const ctx = canvas.getContext("2d");
+const btn = document.getElementById("blobBtn");
+const video = document.getElementById("blobVideo");
+const wrapper = document.querySelector(".blob-wrapper");
+
+function resizeCanvas() {
+  canvas.width = wrapper.clientWidth;
+  canvas.height = wrapper.clientHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let time = 0;
+let mouse = { x: canvas.width/2, y: canvas.height/2 };
+let hoveredBlob = null;
+
+document.addEventListener("mousemove", e => {
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+document.addEventListener("touchmove", e => {
+  if(e.touches.length>0){
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.touches[0].clientX - rect.left;
+    mouse.y = e.touches[0].clientY - rect.top;
+  }
+});
+
+let blobs = [];
+
+function generateBlobPath(cx, cy, baseRadius, freq, amp, speed, yScale=1) {
+  const points = 120;
+  let pathPoints = [];
+
+  let dx = mouse.x - cx;
+  let dy = mouse.y - cy;
+  let angleToMouse = Math.atan2(dy, dx);
+
+  for (let i=0;i<=points;i++){
+    let angle = (i/points)*Math.PI*2;
+    let offset = Math.sin(angle*freq + time*0.02*speed)*amp + Math.cos(angle*(freq-1)+time*0.03*speed)*(amp/2);
+    let diff = Math.cos(angle - angleToMouse);
+    let inward = Math.max(diff,0)*-20;
+    let r = baseRadius + offset + inward;
+    let x = Math.cos(angle)*r + cx;
+    let y = (Math.sin(angle)*r)*yScale + cy;
+    pathPoints.push({x,y});
+  }
+  return pathPoints;
+}
+
+function drawBlob(centerX, centerY, baseRadius, freq, amp, speed, color1, color2, topText, bottomText, yScale=1){
+  const pathPoints = generateBlobPath(centerX, centerY, baseRadius, freq, amp, speed, yScale);
+
+  ctx.beginPath();
+  ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
+  for(let i=1;i<pathPoints.length;i++){
+    ctx.lineTo(pathPoints[i].x, pathPoints[i].y);
+  }
+  ctx.closePath();
+
+  const gradient = ctx.createLinearGradient(centerX-baseRadius, centerY-baseRadius, centerX+baseRadius, centerY+baseRadius);
+  gradient.addColorStop(0,color1);
+  gradient.addColorStop(1,color2);
+  ctx.fillStyle = gradient;
+  ctx.globalAlpha = 0.9;
+  ctx.fill();
+
+  blobs.push({cx:centerX, cy:centerY, radius: baseRadius*1.1 + amp + 20, path: pathPoints});
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  blobs = [];
+  hoveredBlob = null;
+
+  let baseRadius = Math.min(canvas.width,canvas.height)/6;
+  let spacing = baseRadius*2 + 50;
+
+  drawBlob(canvas.width/2 - spacing, canvas.height/2 - 80, baseRadius,3,20,1,"#ff3300","#ff3300","COVENT GARDEN","");
+  drawBlob(canvas.width/2, canvas.height/2, baseRadius,3,20,1.1,"#00bfbf","#00bfbf","VICTORIA EMBANKMENT","", 1.3);
+  drawBlob(canvas.width/2 + spacing, canvas.height/2 + 80, baseRadius,3,20,0.9,"#ff9900","#ff9900","SOUTHBANK","", 1.1);
+
+  for(let b of blobs){
+    let dx = mouse.x - b.cx;
+    let dy = mouse.y - b.cy;
+    if(Math.sqrt(dx*dx + dy*dy) < b.radius){
+      hoveredBlob = b;
+      btn.classList.add("show");
+      btn.style.left = (b.cx - btn.offsetWidth/2) + "px";
+      btn.style.top = (b.cy - btn.offsetHeight/2) + "px";
+
+      if(video.paused){
+        video.play();
+      }
+      break;
+    }
+  }
+  if(!hoveredBlob){
+    btn.classList.remove("show");
+    video.pause();
+  }
+
+  if(hoveredBlob && video.readyState>=2){
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(hoveredBlob.path[0].x, hoveredBlob.path[0].y);
+    for(let i=1;i<hoveredBlob.path.length;i++){
+      ctx.lineTo(hoveredBlob.path[i].x, hoveredBlob.path[i].y);
+    }
+    ctx.closePath();
+    ctx.clip();
+
+    const aspect = video.videoWidth / video.videoHeight;
+    let blobBoxWidth = hoveredBlob.radius*2;
+    let blobBoxHeight = hoveredBlob.radius*2;
+    let w, h;
+    if(aspect >= 1){
+      w = blobBoxWidth * aspect;
+      h = blobBoxHeight;
+    } else {
+      w = blobBoxWidth;
+      h = blobBoxHeight / aspect;
+    }
+
+    ctx.drawImage(video, hoveredBlob.cx - w/2, hoveredBlob.cy - h/2, w, h);
+    ctx.restore();
+  }
+
+  time++;
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>
