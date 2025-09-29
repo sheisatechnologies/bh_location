@@ -872,8 +872,13 @@ body.scroll-off {
 
 .blob-img-1{
   position: absolute;
-  left: 0px;
-    
+  top: 0;
+  left: 0;
+  width: 100%;         /* Ensures full coverage */
+  /* height: 100%;       */
+  object-fit: cover;   /* Keeps image proportionate */
+  pointer-events: none; /* Optional: prevents hover/focus on overlay */
+
 }
 
 .blob-img:hover {
