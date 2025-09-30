@@ -86,8 +86,8 @@
 
     <!-- Filter Buttons -->
 
+<!-- <div class="white-pills-wrapper">
 
-    <div class="white-pills-wrapper">
   <button class="pill-btn">
     <img src="img/icon/pill-icon1.svg" alt="" class="btn-icon">
     Food & Beverage (23)
@@ -102,15 +102,6 @@
     <img src="img/icon/icon.svg" alt="" class="btn-icon">
     Gym
   </button>
-
-  <!-- <button class="pill-btn">
-    <img src="img/icon/pill-icon2.svg" alt="" class="btn-icon">
-    Local Occupiers (8)
-  </button>
-  <button class="pill-btn">
-    <img src="img/icon/pill-icon3.svg" alt="" class="btn-icon">
-    Hotels
-  </button> -->
   <button class="pill-btn">
     <img src="img/icon/pill-icon4.svg" alt="" class="btn-icon">
     Culture
@@ -120,7 +111,38 @@
     Shopping
   </button>
 
+</div> -->
+
+<div class="white-pills-wrapper">
+  <button class="pill-btn">
+    <img src="img/icon/pill-icon1.svg" alt="" class="btn-icon">
+    Food & Beverage (23)
+  </button>
+
+  <button class="pill-btn">
+    <img src="img/icon/pill-icon6.svg" alt="" class="btn-icon">
+    Green Spaces (2)
+  </button>
+
+  <button class="pill-btn">
+    <img src="img/icon/icon.svg" alt="" class="btn-icon">
+    Gym
+  </button>
+
+  <button class="pill-btn extra">
+    <img src="img/icon/pill-icon4.svg" alt="" class="btn-icon">
+    Culture
+  </button>
+
+  <button class="pill-btn extra">
+    <img src="img/icon/pill-icon5.svg" alt="" class="btn-icon">
+    Shopping
+  </button>
 </div>
+
+<!-- Toggle Button -->
+<button id="togglePills" class="toggle-btn d-md-none pill-btn">Show All</button>
+
 
 <!-- Reset Link -->
 <div class="reset-wrapper pt-4">
@@ -1358,3 +1380,16 @@ filterButtons.forEach(btn => {
 });
 
   </script>
+<script>
+  document.getElementById("togglePills").addEventListener("click", function () {
+  const extraPills = document.querySelectorAll(".pill-btn.extra");
+  extraPills.forEach(pill => pill.classList.toggle("show"));
+
+  if (this.textContent === "Show All") {
+    this.textContent = "Hide";
+  } else {
+    this.textContent = "Show All";
+  }
+});
+
+</script>

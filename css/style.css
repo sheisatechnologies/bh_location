@@ -1175,3 +1175,46 @@ font-family:  'Altform TRIAL', sans-serif;
 }
 
 
+/* toggle buttonphon */
+
+.white-pills-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.pill-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 14px;
+  border: 1px solid #ddd;
+  border-radius: 20px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.toggle-btn {
+  margin-top: 12px;
+  padding: 6px 14px;
+  border: none;
+  border-radius: 20px;
+  background: #333;
+  color: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+/* Mobile version এ hide হবে */
+@media (max-width: 768px) {
+  .pill-btn.extra {
+    display: none;
+  }
+  .pill-btn.extra.show {
+    display: inline-flex;
+  }
+}
+
+
+/* toggle buttonphon */
