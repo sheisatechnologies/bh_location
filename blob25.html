@@ -120,10 +120,11 @@ function generateBlobPath(cx, cy, baseRadius, freq, amp, speed, yScale=1) {
   return pathPoints;
 }
 
+
 function drawBlob(centerX, centerY, baseRadius, freq, amp, speed, color1, color2, topText, bottomText, yScale=1){
   const pathPoints = generateBlobPath(centerX, centerY, baseRadius, freq, amp, speed, yScale);
 
-  // Draw blob shape
+   // Draw blob shape
   ctx.beginPath();
   ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
   for(let i=1;i<pathPoints.length;i++){
@@ -135,7 +136,7 @@ function drawBlob(centerX, centerY, baseRadius, freq, amp, speed, color1, color2
   gradient.addColorStop(0,color1);
   gradient.addColorStop(1,color2);
   ctx.fillStyle = gradient;
-  ctx.globalAlpha = 0.9;
+  ctx.globalAlpha = 1;
   ctx.fill();
 
   // Top text
@@ -181,22 +182,26 @@ function drawBlob(centerX, centerY, baseRadius, freq, amp, speed, color1, color2
   ctx.restore();
 
   blobs.push({cx:centerX, cy:centerY, radius: baseRadius*1.1 + amp + 20, path: pathPoints});
+
+  return {cx:centerX, cy:centerY, path: pathPoints}; // ✅ return path
 }
 
-function drawCurvedTextOnBlob(pathPoints, text, offset=15){
+
+
+
+
+function drawCurvedTextOnBlob(pathPoints, text, offset=15) {
   ctx.save();
   ctx.fillStyle = "#000";
   ctx.font = "bold 14px Arial";
   ctx.textAlign = "center";
 
-  // path এর নিচের অংশ ধরা (40% থেকে 60%)
-  let startIndex = Math.floor(pathPoints.length * 0.4);
-  let endIndex   = Math.floor(pathPoints.length * 0.6);
-  let step = Math.floor((endIndex - startIndex) / text.length);
+  // পুরো path ব্যবহার
+  let step = Math.floor(pathPoints.length / text.length);
 
   for (let i = 0; i < text.length; i++) {
-    let p = pathPoints[startIndex + i*step];
-    let next = pathPoints[startIndex + i*step + 1] || p;
+    let p = pathPoints[i * step];
+    let next = pathPoints[(i * step + 1) % pathPoints.length];
 
     // Path tangent
     let angle = Math.atan2(next.y - p.y, next.x - p.x);
@@ -215,6 +220,9 @@ function drawCurvedTextOnBlob(pathPoints, text, offset=15){
 
   ctx.restore();
 }
+
+
+
 
 
 function animate() {
@@ -241,7 +249,7 @@ function animate() {
     1,
     "#ff3300",
     "#ff3300",
-    "COVENT GARDEN",
+    "",
     ""
   );
 
@@ -255,7 +263,7 @@ function animate() {
     1.1,
     "#00bfbf",
     "#00bfbf",
-    "VICTORIA EMBANKMENT",
+    "",
     "",
     1.3
   );
@@ -270,7 +278,7 @@ function animate() {
     0.9,
     "#ff9900",
     "#ff9900",
-    "SOUTHBANK",
+    "",
     "",
     1.1
   );
@@ -306,7 +314,7 @@ function animate() {
     }
     ctx.closePath();
     ctx.clip();
-
+    ctx.globalAlpha = 1;
     const aspect = video.videoWidth / video.videoHeight;
     let blobBoxWidth = hoveredBlob.radius * 2;
     let blobBoxHeight = hoveredBlob.radius * 2;
@@ -325,6 +333,114 @@ function animate() {
 
   time++;
   requestAnimationFrame(animate);
+
+  // First blob (left/top)
+let firstBlob = drawBlob(
+  canvas.width / 2 - spacing,
+  canvas.height / 2 - 80,
+  baseRadius,
+  3,
+  20,
+  1,
+  "#ff3300",
+  "#ff3300",
+  "",
+  ""
+);
+
+function drawCurvedTextOnBlob(pathPoints, text, offset = 20) {
+  ctx.save();
+  ctx.fillStyle = "#000";
+  ctx.font = "bold 16px Arial"; // Font adjust করো
+  ctx.textAlign = "center";
+
+  // পুরো perimeter বের করা
+  let perimeter = 0;
+  for (let i = 1; i < pathPoints.length; i++) {
+    let dx = pathPoints[i].x - pathPoints[i - 1].x;
+    let dy = pathPoints[i].y - pathPoints[i - 1].y;
+    perimeter += Math.sqrt(dx * dx + dy * dy);
+  }
+
+  // sentence total width
+  let textWidth = ctx.measureText(text).width;
+
+  // starting position (centered করতে চাইলে)
+  let startOffset = (perimeter - textWidth) / 2;
+
+  let distSoFar = 0;
+  let charIndex = 0;
+
+  for (let i = 1; i < pathPoints.length && charIndex < text.length; i++) {
+    let p1 = pathPoints[i - 1];
+    let p2 = pathPoints[i];
+
+    let dx = p2.x - p1.x;
+    let dy = p2.y - p1.y;
+    let segLength = Math.sqrt(dx * dx + dy * dy);
+
+    while (distSoFar + segLength >= startOffset && charIndex < text.length) {
+      let ratio = (startOffset - distSoFar) / segLength;
+      if (ratio < 0) ratio = 0;
+      if (ratio > 1) ratio = 1;
+
+      let x = p1.x + dx * ratio;
+      let y = p1.y + dy * ratio;
+
+      // tangent angle
+      let angle = Math.atan2(dy, dx);
+
+      ctx.save();
+      ctx.translate(x, y);
+      ctx.rotate(angle);
+      ctx.fillText(text[charIndex], 0, -offset);
+      ctx.restore();
+
+      startOffset += ctx.measureText(text[charIndex]).width; // shift by actual char width
+      charIndex++;
+    }
+    distSoFar += segLength;
+  }
+
+  ctx.restore();
+}
+
+
+drawCurvedTextOnBlob(firstBlob.path, "COVENT GARDEN", 20);
+
+// Second blob (middle, taller vertically)
+let secondBlob = drawBlob(
+  canvas.width / 2,
+  canvas.height / 2,
+  baseRadius,
+  3,
+  20,
+  1.1,
+  "#00bfbf",
+  "#00bfbf",
+  "",
+  "",
+  1.3
+);
+drawCurvedTextOnBlob(secondBlob.path, "VICTORIA EMBANKMENT", 20);
+
+// Third blob (right/bottom)
+let thirdBlob = drawBlob(
+  canvas.width / 2 + spacing,
+  canvas.height / 2 + 80,
+  baseRadius,
+  3,
+  20,
+  0.9,
+  "#ff9900",
+  "#ff9900",
+  "",
+  "",
+  1.1
+);
+drawCurvedTextOnBlob(thirdBlob.path, "SOUTHBANK", 20);
+
+
 }
 
 

@@ -989,9 +989,12 @@ font-family:  'Altform TRIAL', sans-serif;
 
 .icon-box img {
   width: 40px;
-  height: 30px;
+  height: 40px;
 }
 
+.font11{
+  font-size: 12.52px !important;
+}
 .overlay-box {
   position: relative;
   margin: 0 auto;
@@ -999,7 +1002,7 @@ font-family:  'Altform TRIAL', sans-serif;
   border-radius: 8px;
   color: white;
   z-index: 2;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  /* box-shadow: 0 4px 12px rgba(0,0,0,0.15); */
   width: 90%;
   max-width: 324px;
   height: auto;
@@ -1040,6 +1043,12 @@ font-family:  'Altform TRIAL', sans-serif;
   text-decoration: underline;
   font-family: 'Altform TRIAL', sans-serif;
   font-weight: normal; /* uses Altform Regular */
+
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 7px; /* Icon আর text এর মধ্যে gap */
+
+  color: inherit;
 }
 
 /* ---------------- Rows & Responsiveness ---------------- */
