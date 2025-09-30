@@ -68,7 +68,7 @@
     <h2 class="section-title mb-4">ENJOY A HAND PICKED SELECTION OF OUR FAVOURITE SPOTS</h2>
     <p class="section-subtext">
       From vibrant food and drink spots to lush green spaces, world-class theatre, local culture, and hidden gems, every
-      recommendation has been handpicked to help you experience the city like a true insider.
+      recommendation has been handpicked to help you experience the city like a true&nbsp;insider.
     </p>
 
     <h6 class="py-5">FILTER YOUR SEARCH BELOW</h6>
@@ -81,6 +81,10 @@
   <button class="filter-btn southbank mb-2 mb-md-0" data-target="southbank">SOUTHBANK</button>
   <button class="filter-btn victoria mb-2 mb-md-0" data-target="victoria">VICTORIA EMBANKMENT</button>
   <button class="filter-btn covent mb-2 mb-md-0" data-target="covent">COVENT GARDEN</button>
+  <button id="togglePills" class="toggle-btn d-md-none pill-btn mb-2 mb-md-0">
+    <img src="img/icon/pill-icon1.svg" alt="" class="btn-icon">
+    MORE FILTERS
+  </button>
 </div>
 
 
@@ -113,18 +117,19 @@
 
 </div> -->
 
+
 <div class="white-pills-wrapper">
-  <button class="pill-btn">
+  <button class="pill-btn extra">
     <img src="img/icon/pill-icon1.svg" alt="" class="btn-icon">
     Food & Beverage (23)
   </button>
 
-  <button class="pill-btn">
+  <button class="pill-btn extra">
     <img src="img/icon/pill-icon6.svg" alt="" class="btn-icon">
     Green Spaces (2)
   </button>
 
-  <button class="pill-btn">
+  <button class="pill-btn extra">
     <img src="img/icon/icon.svg" alt="" class="btn-icon">
     Gym
   </button>
@@ -138,10 +143,11 @@
     <img src="img/icon/pill-icon5.svg" alt="" class="btn-icon">
     Shopping
   </button>
+  
 </div>
 
 <!-- Toggle Button -->
-<button id="togglePills" class="toggle-btn d-md-none pill-btn">Show All</button>
+
 
 
 <!-- Reset Link -->
@@ -1385,10 +1391,10 @@ filterButtons.forEach(btn => {
   const extraPills = document.querySelectorAll(".pill-btn.extra");
   extraPills.forEach(pill => pill.classList.toggle("show"));
 
-  if (this.textContent === "Show All") {
-    this.textContent = "Hide";
+  if (this.textContent === "HIDE") {
+    this.textContent = "MORE FILTERS";
   } else {
-    this.textContent = "Show All";
+    this.textContent = "HIDE";
   }
 });
 
