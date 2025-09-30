@@ -987,8 +987,8 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 
 .icon-box {
   position: absolute;
-  top: 18%;   /* instead of 89px */
-  left: 14%;  /* instead of 63px */
+  top: 10%;   /* instead of 89px */
+  left: 11%;  /* instead of 63px */
   background: #FF4602;
   border-radius: 50%;
   padding: 8px;
@@ -998,7 +998,13 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   box-shadow: 0 2px 6px rgba(0,0,0,0.2);
   z-index: 3;
 }
+@media (max-width: 767.98px) {
+.icon-box {
 
+  top: 10%;   /* instead of 89px */
+  left: 4%;
+}
+}
 
 .icon-box img {
   width: 40px;
@@ -1224,7 +1230,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 
 .toggle-btn {
   margin-top: 12px;
-  padding: 10px 30px;
+  padding: 7px 31px;
   border: 2px solid black;
   border-radius: 20px;
   background: #fff;
@@ -1263,10 +1269,12 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   color: #333;
   margin: 0 12px;
   padding: 4px 0;
+  font-family: 'Altform-bold', Helvetica, Arial, sans-serif;
+   text-transform: uppercase;
 }
 
 .small-nav .nav-link.active {
-  color: #ff4500;
+  color: #62BCB3;
   /* border-bottom: 2px solid #ff4500; */
 }
 
@@ -1276,7 +1284,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 
 @media (max-width: 767.98px) {
   .mend-9 {
-    margin-right: 2rem !important;
+    margin-right: 0rem !important;
 }
 }
 

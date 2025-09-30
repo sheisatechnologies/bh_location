@@ -82,7 +82,7 @@
   <button class="filter-btn victoria mb-2 mb-md-0" data-target="victoria">VICTORIA EMBANKMENT</button>
   <button class="filter-btn covent mb-2 mb-md-0" data-target="covent">COVENT GARDEN</button>
   <button id="togglePills" class="toggle-btn d-md-none pill-btn mb-2 mb-md-0">
-    <img src="img/icon/pill-icon1.svg" alt="" class="btn-icon">
+    <img src="img/icon/toggle.svg" alt="" class="btn-icon">
     MORE FILTERS
   </button>
 </div>
@@ -121,16 +121,16 @@
 <div class="white-pills-wrapper">
   <button class="pill-btn extra">
     <img src="img/icon/pill-icon1.svg" alt="" class="btn-icon">
-    Food & Beverage (23)
+    Food & Beverage 
   </button>
 
   <button class="pill-btn extra">
     <img src="img/icon/pill-icon6.svg" alt="" class="btn-icon">
-    Green Spaces (2)
+    Green Spaces
   </button>
 
   <button class="pill-btn extra">
-    <img src="img/icon/icon.svg" alt="" class="btn-icon">
+    <img src="img/icon/gym.png" alt="" class="btn-icon">
     Gym
   </button>
 
@@ -1388,14 +1388,13 @@ filterButtons.forEach(btn => {
   </script>
 <script>
   document.getElementById("togglePills").addEventListener("click", function () {
-  const extraPills = document.querySelectorAll(".pill-btn.extra");
-  extraPills.forEach(pill => pill.classList.toggle("show"));
+    const extraPills = document.querySelectorAll(".pill-btn.extra");
+    extraPills.forEach(pill => pill.classList.toggle("show"));
 
-  if (this.textContent === "HIDE") {
-    this.textContent = "MORE FILTERS";
-  } else {
-    this.textContent = "HIDE";
-  }
-});
-
+    if (this.textContent.includes("LESS FILTERS")) {
+      this.innerHTML = '<img src="img/icon/toggle.svg" alt="" style="width:26px; height:21px; margin-right:6px;"> MORE FILTERS';
+    } else {
+      this.innerHTML = '<img src="img/icon/toggle.svg" alt="" style="width:26px; height:21px; margin-right:6px;"> LESS FILTERS';
+    }
+  });
 </script>
