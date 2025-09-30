@@ -308,18 +308,23 @@ body.scroll-off {
   font-size: 16px;
   font-weight: bold;
   white-space: nowrap;
+  
 }
 
 .bottom-text{
   color: white;
   font-size: 20px;
  line-height: 130%;
-
 letter-spacing: 5%;
-font-family:  'Altform TRIAL', sans-serif;
+font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
   font-weight: normal; /* uses Altform Regular */;
 }
 
+@media (max-width: 576px) {
+
+ .bottom-text{
+   font-size: 12.57px;
+  }
 .bottom-text-station{
   color: black;
 }
