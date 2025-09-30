@@ -252,6 +252,7 @@ body.scroll-off {
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
+    font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
 }
 
 .spots_box {
@@ -298,8 +299,9 @@ body.scroll-off {
 }
 
 .number {
-    font-weight: bold;
+   
     font-size: 29px;
+    font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
 }
 
 .time {
@@ -453,7 +455,8 @@ font-family:  'Altform TRIAL', sans-serif;
 .buzz-box .buzz-text {
     font-size: 30px;
     line-height: 33px;
-    font-weight: bold;
+    /* font-weight: bold; */
+    font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
 }
 .buzz-box.buzz_box_orange {
     background-color: #FF4602;
@@ -773,6 +776,7 @@ font-family:  'Altform TRIAL', sans-serif;
 
   .spot .number {
     font-size: 16px;
+    font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
   }
 
   .spot .time {
@@ -1263,3 +1267,11 @@ font-family:  'Altform TRIAL', sans-serif;
 .mend-9 {
     margin-right: 9rem !important;
 }
+
+@media (max-width: 767.98px) {
+  .mend-9 {
+    margin-right: 2rem !important;
+}
+}
+
+
