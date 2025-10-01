@@ -1313,3 +1313,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   display: block;
 }
 
+.invisible-btn {
+  visibility: hidden; /* বাটন লুকানো কিন্তু জায়গা রেখে দেয় */
+}
+

@@ -84,10 +84,10 @@ const blobs = [
 ];
 
 // Physics constants (slower movement)
-const stiffness = 0.03; 
-const damping = 0.90;
-const mouseForce = 1200;
-const mouseRadius = 180;
+const stiffness = 0.09; 
+const damping = 0.97;
+ const mouseForce = 170; 
+const mouseRadius = 50;
 
 function drawSmoothPath(points){
   const len = points.length;
@@ -117,21 +117,25 @@ function isMouseOverBlob(b){
 function updateBlobPhysics(b, t){
   for(let i=0;i<b.points.length;i++){
     const p = b.points[i];
-    const wobble = Math.sin(t*0.004 + p.angle*3 + i*0.02) * (b.radius*0.06);
+    const wobble = Math.sin(t*0.004 + p.angle*3 + i*0.02) * (b.radius*0.04);
+
     const tx = b.cx + Math.cos(p.angle)*(b.radius + wobble);
     const ty = b.cy + Math.sin(p.angle)*(b.radius + wobble)*b.yScale;
     let fx = (tx - p.x) * stiffness;
     let fy = (ty - p.y) * stiffness;
 
     const dx = p.x - mouse.x;
-    const dy = p.y - mouse.y;
-    const d2 = dx*dx + dy*dy;
-    if(d2 < mouseRadius*mouseRadius){
-      const d = Math.sqrt(d2) || 1;
-      const force = (1 - (d / mouseRadius)) * (mouseForce / (d + 20));
-      fx += (dx / d) * force;
-      fy += (dy / d) * force;
-    }
+const dy = p.y - mouse.y;
+const d2 = dx*dx + dy*dy;
+if(d2 < mouseRadius*mouseRadius){
+  const d = Math.sqrt(d2) || 1;
+  const force = (1 - (d / mouseRadius)) * (mouseForce / (d + 20));
+  fx += (dx / d) * force;
+  fy += (dy / d) * force;
+}
+
+
+
 
     const prev = b.points[(i - 1 + b.points.length) % b.points.length];
     const next = b.points[(i + 1) % b.points.length];
