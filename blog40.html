@@ -65,7 +65,6 @@ window.addEventListener('touchmove', e => {
   if(e.touches && e.touches[0]) { mouse.x = e.touches[0].clientX; mouse.y = e.touches[0].clientY; }
 }, { passive:true });
 
-// Blob generator
 function makeBlob(cx, cy, radius, points, yScale, colors, label){
   const pts = [];
   for(let i=0;i<points;i++){
@@ -83,10 +82,9 @@ const blobs = [
   makeBlob(window.innerWidth*0.75, window.innerHeight*0.48, 150, 88, 1.05, ['#ffc35a','#ff8a00'], 'SOUTHBANK')
 ];
 
-// Physics constants (slower movement)
 const stiffness = 0.09; 
 const damping = 0.97;
- const mouseForce = 170; 
+const mouseForce = 170; 
 const mouseRadius = 50;
 
 function drawSmoothPath(points){
@@ -118,27 +116,23 @@ function updateBlobPhysics(b, t){
   for(let i=0;i<b.points.length;i++){
     const p = b.points[i];
     const wobble = Math.sin(t*0.004 + p.angle*3 + i*0.02) * (b.radius*0.04);
-
     const tx = b.cx + Math.cos(p.angle)*(b.radius + wobble);
     const ty = b.cy + Math.sin(p.angle)*(b.radius + wobble)*b.yScale;
     let fx = (tx - p.x) * stiffness;
     let fy = (ty - p.y) * stiffness;
 
     const dx = p.x - mouse.x;
-const dy = p.y - mouse.y;
-const d2 = dx*dx + dy*dy;
-if(d2 < mouseRadius*mouseRadius){
-  const d = Math.sqrt(d2) || 1;
-  const force = (1 - (d / mouseRadius)) * (mouseForce / (d + 20));
-  fx += (dx / d) * force;
-  fy += (dy / d) * force;
-}
+    const dy = p.y - mouse.y;
+    const d2 = dx*dx + dy*dy;
+    if(d2 < mouseRadius*mouseRadius){
+      const d = Math.sqrt(d2) || 1;
+      const force = (1 - (d / mouseRadius)) * (mouseForce / (d + 20));
+      fx += (dx / d) * force;
+      fy += (dy / d) * force;
+    }
 
-
-
-
-    const prev = b.points[(i - 1 + b.points.length) % b.points.length];
-    const next = b.points[(i + 1) % b.points.length];
+    const prev = b.points[(i-1+b.points.length)%b.points.length];
+    const next = b.points[(i+1)%b.points.length];
     fx += ((prev.x + next.x)/2 - p.x) * 0.02;
     fy += ((prev.y + next.y)/2 - p.y) * 0.02;
 
@@ -158,7 +152,6 @@ function drawBlobGradient(b){
   ctx.fill();
 }
 
-// Draw curved text closely attached to blob edge
 function drawCurvedLabel(b){
   const text = b.label || '';
   if(!text) return;
@@ -170,14 +163,11 @@ function drawCurvedLabel(b){
     const diff = Math.abs(ang + Math.PI/2);
     if(diff < bestAngDiff){ bestAngDiff = diff; bestIdx = i; }
   }
-
   ctx.save();
   ctx.fillStyle = '#111';
   ctx.font = '600 14px Arial';
   ctx.textBaseline = 'middle';
-
-  // ---------------- small letter spacing for sentence effect ----------------
-  const charSpacing = Math.round(pts.length / (text.length*5)); // smaller spacing
+  const charSpacing = Math.round(pts.length / (text.length*5));
   let offset = -Math.floor(text.length/2);
   for(let i=0;i<text.length;i++){
     const idx = (bestIdx + (offset + i) * charSpacing + pts.length) % pts.length;
@@ -185,17 +175,16 @@ function drawCurvedLabel(b){
     const nxt = pts[(idx+1)%pts.length];
     const angle = Math.atan2(nxt.y - p.y, nxt.x - p.x);
     const normal = angle - Math.PI/2;
-    const x = p.x + Math.cos(normal) * (b.radius*0.1 + 10); // 10% edge cover
-    const y = p.y + Math.sin(normal) * (b.radius*0.1 + 10);
+    const x = p.x + Math.cos(normal)*(b.radius*0.1+10);
+    const y = p.y + Math.sin(normal)*(b.radius*0.1+10);
     ctx.save();
     ctx.translate(x,y);
     ctx.rotate(angle);
-    ctx.fillText(text[i], 0, 0);
+    ctx.fillText(text[i],0,0);
     ctx.restore();
   }
   ctx.restore();
 }
-
 
 let hoveredBlob = null;
 
@@ -219,9 +208,9 @@ function loop(t){
     drawSmoothPath(hoveredBlob.points);
     ctx.clip();
 
-    const bw = hoveredBlob.radius * 2.2;
-    const bh = hoveredBlob.radius * 2.2;
-    const aspect = video.videoWidth / video.videoHeight || 16/9;
+    const bw = hoveredBlob.radius*2.2;
+    const bh = hoveredBlob.radius*2.2;
+    const aspect = video.videoWidth/video.videoHeight || 16/9;
     let dw, dh;
     if(aspect >= 1){ dw = Math.max(bw, bh*aspect); dh = dw/aspect; }
     else{ dh = Math.max(bh, bw/aspect); dw = dh*aspect; }
@@ -230,14 +219,21 @@ function loop(t){
     ctx.restore();
     drawCurvedLabel(hoveredBlob);
 
-    btn.style.left = hoveredBlob.cx + 'px';
-    btn.style.top = hoveredBlob.cy + 'px';
-    btn.style.display = 'block';
-    btn.style.opacity = 1;
-    if(video.paused) video.play();
+    btn.style.left = hoveredBlob.cx+'px';
+    btn.style.top = hoveredBlob.cy+'px';
+    btn.style.display='block';
+    btn.style.opacity=1;
+
+    // Play video on hover
+    if(video.paused){
+      video.play().catch(e=>{
+        console.log("Video autoplay blocked:", e);
+      });
+    }
+
   } else {
-    btn.style.opacity = 0;
-    setTimeout(()=>{ if(!hoveredBlob) btn.style.display = 'none'; }, 300);
+    btn.style.opacity=0;
+    setTimeout(()=>{ if(!hoveredBlob) btn.style.display='none'; },300);
     if(!video.paused) video.pause();
   }
 
@@ -247,11 +243,11 @@ function loop(t){
 video.addEventListener('canplay', ()=>{}); 
 requestAnimationFrame(loop);
 
-btn.addEventListener('click', ()=> {
-  btn.animate([{ transform:'translate(-50%,-50%) scale(1)' }, { transform:'translate(-50%,-50%) scale(0.96)' }], { duration:120, easing:'ease-out' });
+btn.addEventListener('click', ()=>{
+  btn.animate([{ transform:'translate(-50%,-50%) scale(1)'},{transform:'translate(-50%,-50%) scale(0.96)'}],{duration:120,easing:'ease-out'});
 });
 
-window.addEventListener('resize', ()=> {
+window.addEventListener('resize', ()=>{
   blobs[0].cx = window.innerWidth*0.25; blobs[0].cy = window.innerHeight*0.48;
   blobs[1].cx = window.innerWidth*0.50; blobs[1].cy = window.innerHeight*0.48;
   blobs[2].cx = window.innerWidth*0.75; blobs[2].cy = window.innerHeight*0.48;

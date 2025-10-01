@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blob Video on Hover</title>
+<style>
+  body { margin:0; background:#fff; font-family:Arial,sans-serif; }
+  .blob-wrapper { position:relative; width:100%; height:600px; overflow:hidden; }
+  canvas { position:absolute; top:0; left:0; width:100%; height:100%; z-index:1; }
+  h1 { position:relative; z-index:3; text-align:center; font-size:2.5rem; margin:20px 0; font-weight:900; color:#000; }
+  .blob-button {
+    position:absolute; padding:10px 20px; background:red; color:#fff; border:none; border-radius:6px;
+    font-size:14px; cursor:pointer; opacity:0; pointer-events:none; transition:opacity 0.3s; z-index:4;
+  }
+  .blob-button.show { opacity:1; pointer-events:auto; }
+  video { display:none; }
+</style>
+</head>
+<body>
+<div class="blob-wrapper">
+  <canvas id="blobCanvas"></canvas>
+  <h1>THREE VIBRANT<br>DISTRICTS</h1>
+  <button id="blobBtn" class="blob-button">EXPLORE</button>
+  <video id="blobVideo" src="street.mp4" muted loop playsinline></video>
+</div>
+
+<script>
+const canvas = document.getElementById("blobCanvas");
+const ctx = canvas.getContext("2d");
+const btn = document.getElementById("blobBtn");
+const video = document.getElementById("blobVideo");
+const wrapper = document.querySelector(".blob-wrapper");
+
+function resizeCanvas() {
+  canvas.width = wrapper.clientWidth;
+  canvas.height = wrapper.clientHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let mouse = {x:canvas.width/2, y:canvas.height/2};
+let hoveredBlob = null;
+let time = 0;
+
+document.addEventListener("mousemove", e=>{
+  const rect = canvas.getBoundingClientRect();
+  mouse.x = e.clientX - rect.left;
+  mouse.y = e.clientY - rect.top;
+});
+document.addEventListener("touchmove", e=>{
+  if(e.touches.length>0){
+    const rect = canvas.getBoundingClientRect();
+    mouse.x = e.touches[0].clientX - rect.left;
+    mouse.y = e.touches[0].clientY - rect.top;
+  }
+});
+
+let blobs = [];
+function createBlob(cx, cy, radius, color1, color2, yScale=1){
+  const points = 120;
+  let path = [];
+  for(let i=0;i<=points;i++){
+    let angle = (i/points)*Math.PI*2;
+    let r = radius + Math.sin(angle*3 + time*0.02)*15;
+    path.push({x:cx + Math.cos(angle)*r, y:cy + Math.sin(angle)*r*yScale});
+  }
+  return {cx, cy, radius, path, color1, color2, yScale};
+}
+
+function drawBlob(b){
+  ctx.beginPath();
+  ctx.moveTo(b.path[0].x, b.path[0].y);
+  for(let p of b.path) ctx.lineTo(p.x, p.y);
+  ctx.closePath();
+  const grad = ctx.createLinearGradient(b.cx-b.radius, b.cy-b.radius, b.cx+b.radius, b.cy+b.radius);
+  grad.addColorStop(0,b.color1);
+  grad.addColorStop(1,b.color2);
+  ctx.fillStyle = grad;
+  ctx.globalAlpha=0.9;
+  ctx.fill();
+}
+
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  hoveredBlob = null;
+  blobs = [
+    createBlob(canvas.width/2 - 220, canvas.height/2, 120,"#ff3300","#ff3300"),
+    createBlob(canvas.width/2, canvas.height/2, 140,"#00bfbf","#00bfbf",1.3),
+    createBlob(canvas.width/2 + 220, canvas.height/2, 130,"#ff9900","#ff9900",1.1)
+  ];
+
+  for(let b of blobs){
+    drawBlob(b);
+    let dx = mouse.x - b.cx, dy = mouse.y - b.cy;
+    if(Math.sqrt(dx*dx + dy*dy) < b.radius){
+      hoveredBlob = b;
+      btn.classList.add("show");
+      btn.style.left = (b.cx - btn.offsetWidth/2)+"px";
+      btn.style.top = (b.cy - btn.offsetHeight/2)+"px";
+      if(video.paused) video.play();
+    }
+  }
+
+  if(!hoveredBlob){ btn.classList.remove("show"); video.pause(); }
+
+  if(hoveredBlob && video.readyState>=2){
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(hoveredBlob.path[0].x, hoveredBlob.path[0].y);
+    for(let p of hoveredBlob.path) ctx.lineTo(p.x, p.y);
+    ctx.closePath();
+    ctx.clip();
+    const aspect = video.videoWidth / video.videoHeight;
+    let w = hoveredBlob.radius*2, h = hoveredBlob.radius*2;
+    if(aspect>1){ w = hoveredBlob.radius*2*aspect; h = hoveredBlob.radius*2; } 
+    else { w = hoveredBlob.radius*2; h = hoveredBlob.radius*2/aspect; }
+    ctx.drawImage(video, hoveredBlob.cx - w/2, hoveredBlob.cy - h/2, w, h);
+    ctx.restore();
+  }
+
+  time++;
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>
