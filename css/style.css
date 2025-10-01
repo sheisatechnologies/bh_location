@@ -1288,7 +1288,13 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   .mend-9 {
     margin-right: 0rem !important;
 }
+.reset-wrapper {
+    margin-top: -30px;
+    text-align: center;
 }
+}
+
+
 
 /* css add kara hoyeche mask er niche video */
 .mask-video {
