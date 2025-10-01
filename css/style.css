@@ -1289,7 +1289,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
     margin-right: 0rem !important;
 }
 .reset-wrapper {
-    margin-top: -20px;
+    margin-top: 18px;
     text-align: center;
 }
 }
@@ -1325,13 +1325,4 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 
 
 /* ----------------- */
-.pill-btn {
-  white-space: nowrap; /* text wrap na hobe */
-  min-width: 150px;    /* button minimum width */
-}
-.row.flex-nowrap {
-  flex-wrap: nowrap;   /* choto screen-e collapse na korbe */
-}
-.row.flex-nowrap::-webkit-scrollbar {
-  display: none; /* optional: horizontal scroll scrollbar hide */
-}
+
