@@ -1324,5 +1324,18 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 }
 
 
-/* ----------------- */
+.sub-navbar .small-nav .nav-item {
+  position: relative;
+}
+
+.sub-navbar .small-nav .nav-item:not(:last-child)::after {
+  content: "";
+  position: absolute;
+  right: 0;
+  top: 20%;               /* push down from top */
+  height: 60%;            /* shorter bar */
+  width: 2px;             /* thickness */
+  background-color: #ccc; /* gray */
+  border-radius: 2px;     /* optional: rounded ends */
+}
 
