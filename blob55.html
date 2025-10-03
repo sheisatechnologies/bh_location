@@ -1,0 +1,225 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Fluid SVG Blobs with Video</title>
+<style>
+body {
+  margin:0;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  height:100vh;
+  background:#fff;
+  font-family:Arial, Helvetica, sans-serif;
+  overflow:hidden;
+  position:relative;
+}
+.container {
+  display:flex;
+  justify-content:space-around;
+  width:90vw;
+  max-width:1200px;
+}
+svg {
+  width:30%;
+  height:auto;
+}
+.blob video {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  opacity:0;
+  transition: opacity 0.3s ease;
+}
+.explore-btn {
+  position:absolute;
+  padding:10px 16px;
+  border-radius:8px;
+  background:#111;
+  color:#fff;
+  border:0;
+  font-weight:700;
+  display:none;
+  opacity:0;
+  transform:translate(-50%,-50%);
+  transition:opacity 0.3s ease;
+  cursor:pointer;
+}
+text {
+  font-weight:600;
+  fill:#111;
+  font-size:12px;
+}
+</style>
+</head>
+<body>
+
+<button class="explore-btn" id="exploreBtn">EXPLORE</button>
+
+<div class="container">
+
+  <!-- Blob 1 -->
+  <svg viewBox="0 0 200 200" class="blob" id="blob1">
+    <defs>
+      <clipPath id="clipBlob1"><path id="pathBlob1" transform="translate(100 100)"></path></clipPath>
+      <linearGradient id="grad1" x1="0" y1="0" x2="200" y2="200">
+        <stop offset="0%" stop-color="#ff6b3a"/>
+        <stop offset="100%" stop-color="#ff3b00"/>
+      </linearGradient>
+    </defs>
+    <path fill="url(#grad1)" transform="translate(100 100)"></path>
+    <foreignObject x="0" y="0" width="200" height="200" clip-path="url(#clipBlob1)">
+      <video src="street.mp4" muted loop playsinline></video>
+    </foreignObject>
+    <text>
+      <textPath href="#pathBlob1" startOffset="50%" text-anchor="middle">
+        COVENT GARDEN
+      </textPath>
+    </text>
+  </svg>
+
+  <!-- Blob 2 -->
+  <svg viewBox="0 0 200 200" class="blob" id="blob2">
+    <defs>
+      <clipPath id="clipBlob2"><path id="pathBlob2" transform="translate(100 100)"></path></clipPath>
+      <linearGradient id="grad2" x1="0" y1="0" x2="200" y2="200">
+        <stop offset="0%" stop-color="#00c4c4"/>
+        <stop offset="100%" stop-color="#009b9b"/>
+      </linearGradient>
+    </defs>
+    <path fill="url(#grad2)" transform="translate(100 100)"></path>
+    <foreignObject x="0" y="0" width="200" height="200" clip-path="url(#clipBlob2)">
+      <video src="street.mp4" muted loop playsinline></video>
+    </foreignObject>
+    <text>
+      <textPath href="#pathBlob2" startOffset="50%" text-anchor="middle">
+        VICTORIA EMBANKMENT
+      </textPath>
+    </text>
+  </svg>
+
+  <!-- Blob 3 -->
+  <svg viewBox="0 0 200 200" class="blob" id="blob3">
+    <defs>
+      <clipPath id="clipBlob3"><path id="pathBlob3" transform="translate(100 100)"></path></clipPath>
+      <linearGradient id="grad3" x1="0" y1="0" x2="200" y2="200">
+        <stop offset="0%" stop-color="#ffc35a"/>
+        <stop offset="100%" stop-color="#ff8a00"/>
+      </linearGradient>
+    </defs>
+    <path fill="url(#grad3)" transform="translate(100 100)"></path>
+    <foreignObject x="0" y="0" width="200" height="200" clip-path="url(#clipBlob3)">
+      <video src="street.mp4" muted loop playsinline></video>
+    </foreignObject>
+    <text>
+      <textPath href="#pathBlob3" startOffset="50%" text-anchor="middle">
+        SOUTHBANK
+      </textPath>
+    </text>
+  </svg>
+
+</div>
+
+<script>
+const blobs = document.querySelectorAll('.blob');
+const btn = document.getElementById('exploreBtn');
+
+function createBasePoints(radius=60, num=8){
+  const pts = [];
+  for(let i=0;i<num;i++){
+    const angle = (i/num)*Math.PI*2;
+    pts.push({
+      x: Math.cos(angle)*radius,
+      y: Math.sin(angle)*radius,
+      angle: angle,
+      ox: Math.cos(angle)*radius,
+      oy: Math.sin(angle)*radius,
+      vx:0,
+      vy:0
+    });
+  }
+  return pts;
+}
+
+function generatePath(points){
+  let d = '';
+  const len = points.length;
+  for(let i=0;i<len;i++){
+    const cur = points[i];
+    const next = points[(i+1)%len];
+    const mx = (cur.x + next.x)/2;
+    const my = (cur.y + next.y)/2;
+    d += (i===0?'M':'Q') + cur.x + ',' + cur.y + ' ' + mx + ',' + my + ' ';
+  }
+  d += 'Z';
+  return d;
+}
+
+// Initialize each blob
+blobs.forEach(blob=>{
+  const pathEl = blob.querySelector('path');
+  const clipPathEl = blob.querySelector('clipPath path');
+  const video = blob.querySelector('video');
+
+  const points = createBasePoints(60,8);
+  let mouse = {x:0,y:0};
+
+  blob.addEventListener('mousemove',e=>{
+    const rect = blob.getBoundingClientRect();
+    mouse.x = e.clientX - rect.left - rect.width/2;
+    mouse.y = e.clientY - rect.top - rect.height/2;
+  });
+
+  function animate(){
+    for(const p of points){
+      // soft physics
+      const dx = mouse.x - p.x;
+      const dy = mouse.y - p.y;
+      const dist = Math.sqrt(dx*dx + dy*dy) || 1;
+      const force = Math.min(2,(dist/100));
+      const tx = p.ox + dx*0.05;
+      const ty = p.oy + dy*0.05;
+
+      p.vx += (tx - p.x)*0.1;
+      p.vy += (ty - p.y)*0.1;
+
+      p.vx *= 0.7; p.vy *=0.7;
+
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+
+    const d = generatePath(points);
+    pathEl.setAttribute('d',d);
+    clipPathEl.setAttribute('d',d);
+    requestAnimationFrame(animate);
+  }
+  animate();
+
+  // Video & button
+  blob.addEventListener('mouseenter',()=>{
+    video.style.opacity=1;
+    video.play();
+    const rect = blob.getBoundingClientRect();
+    btn.style.left = (rect.left + rect.width/2)+'px';
+    btn.style.top = (rect.top + rect.height/2)+'px';
+    btn.style.display='block';
+    btn.style.opacity=1;
+  });
+  blob.addEventListener('mouseleave',()=>{
+    video.style.opacity=0;
+    video.pause();
+    btn.style.opacity=0;
+    setTimeout(()=>{ btn.style.display='none'; },300);
+  });
+});
+
+btn.addEventListener('click',()=>{
+  btn.animate([{transform:'translate(-50%,-50%) scale(1)'},{transform:'translate(-50%,-50%) scale(0.96)'}],
+              {duration:120,easing:'ease-out'});
+});
+</script>
+</body>
+</html>
