@@ -77,51 +77,39 @@ function makeBlob(cx, cy, rx, ry, points, colors, label){
   const sides = 5; // Pentagon
   for(let i = 0; i < points; i++){
     const a = (i / points) * Math.PI * 2;
-    
-    // Determine which two pentagon vertices this point is on between
     const pentAngle = (Math.floor(i / (points / sides)) / sides) * Math.PI * 2;
     const nextPentAngle = ((Math.floor(i / (points / sides)) + 1) / sides) * Math.PI * 2;
-
-    // Interpolation along pentagon edges
     const t = (i % (points / sides)) / (points / sides);
     const px = cx + Math.cos(pentAngle) * rx * (1 - t) + Math.cos(nextPentAngle) * rx * t;
     const py = cy + Math.sin(pentAngle) * ry * (1 - t) + Math.sin(nextPentAngle) * ry * t;
-
     pts.push({ x: px, y: py, vx: 0, vy: 0, angle: a });
   }
   return { cx, cy, rx, ry, points: pts, colors, label };
 }
 
 const blobs = [
-  makeBlob(window.innerWidth*0.25, window.innerHeight*0.48, 140, 190, 140, ['#ff6b3a','#ff3b00'], 'COVENT GARDEN'),
-  makeBlob(window.innerWidth*0.50, window.innerHeight*0.45, 190, 190, 196, ['#00c4c4','#009b9b'], 'VICTORIA EMBANKMENT'),
+  makeBlob(window.innerWidth*0.25, window.innerHeight*0.48, 140, 190, 200, ['#ff6b3a','#ff3b00'], 'COVENT GARDEN'),
+  makeBlob(window.innerWidth*0.50, window.innerHeight*0.45, 190, 290, 296, ['#00c4c4','#009b9b'], 'VICTORIA EMBANKMENT'),
   makeBlob(window.innerWidth*0.75, window.innerHeight*0.48, 150, 150, 188, ['#ffc35a','#ff8a00'], 'SOUTHBANK')
 ];
 
-
-const mouseForce = 50; // slower reaction
-const mouseRadius = 90; // smoother falloff
-const stiffness = 0.03; // softer motion
-const damping = 0.70;   // slightly more damping
+const mouseForce = 50;
+const mouseRadius = 90;
+const stiffness = 0.03;
+const damping = 0.70;
 
 // Blob physics
 function updateBlobPhysics(b, t){
   for(let i=0;i<b.points.length;i++){
     const p = b.points[i];
-
-    // wobble
     const wobbleX = Math.sin(t*0.003 + p.angle*4 + i*0.02) * (b.rx*0.05);
     const wobbleY = Math.cos(t*0.003 + p.angle*4 + i*0.02) * (b.ry*0.05);
-
-    // brinjal / potato shape: asymmetry (niche moṭa, upore chikon)
     const scale = 1 + 0.2 * Math.sin(p.angle); 
     const tx = b.cx + Math.cos(p.angle)*(b.rx*scale + wobbleX);
     const ty = b.cy + Math.sin(p.angle)*(b.ry + wobbleY);
-
     let fx = (tx - p.x) * stiffness;
     let fy = (ty - p.y) * stiffness;
 
-    // mouse force
     const dx = p.x - mouse.x;
     const dy = p.y - mouse.y;
     const d2 = dx*dx + dy*dy;
@@ -132,7 +120,6 @@ function updateBlobPhysics(b, t){
       fy += (dy / d) * force;
     }
 
-    // neighbor smoothing
     const prev = b.points[(i-1+b.points.length)%b.points.length];
     const next = b.points[(i+1)%b.points.length];
     fx += ((prev.x + next.x)/2 - p.x) * 0.025;
@@ -174,6 +161,7 @@ function drawBlobGradient(b){
   ctx.fill();
 }
 
+// ================= Draw curved label =================
 function drawCurvedLabel(b){
   const text = b.label || '';
   if(!text) return;
@@ -197,8 +185,12 @@ function drawCurvedLabel(b){
     const nxt = pts[(idx+1)%pts.length];
     const angle = Math.atan2(nxt.y - p.y, nxt.x - p.x);
     const normal = angle - Math.PI/2;
-    const x = p.x + Math.cos(normal)*(b.rx*0.1+10);
-    const y = p.y + Math.sin(normal)*(b.ry*0.1+10);
+
+    // Move 2nd blob label below
+    const labelOffset = (b === blobs[1]) ? b.ry*0.1+30 : b.ry*0.1+10;
+
+    const x = p.x + Math.cos(normal)*labelOffset;
+    const y = p.y + Math.sin(normal)*labelOffset;
     ctx.save();
     ctx.translate(x,y);
     ctx.rotate(angle);
@@ -263,7 +255,6 @@ function loop(t){
     if(video.paused) video.play().catch(()=>{});
   } else {
     videoAlpha -= 0.05; videoAlpha = Math.max(0, videoAlpha);
-    
     if(videoAlpha > 0 && hoveredBlob){
       ctx.save();
       drawSmoothPath(hoveredBlob.points);

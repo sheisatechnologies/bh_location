@@ -261,7 +261,7 @@ body.scroll-off {
     background-color: #FF4602;
     width: 537px;
     position: absolute;
-    right: 120px;
+    right: 5%;
     top: 299px;
     padding-bottom: 0;
 }
@@ -337,7 +337,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   padding: 20px;
   font-family: 'Arial', sans-serif;
   background-color: #fff;
-  margin-left: 107px;
+  margin-left: 5%;
   margin-top: 26px;
   padding-bottom: 0;
 }
@@ -424,7 +424,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   padding: 20px;
   position: absolute;
   top: -53px;
-  left: -80px;
+  left: -5%;
   z-index: 1;
 }
 .buzz-box .buzz-title{
@@ -1338,4 +1338,143 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   background-color: #ccc; /* gray */
   border-radius: 2px;     /* optional: rounded ends */
 }
+
+
+
+
+
+
+
+.first_shape_wrapper_vict .coverd_box_vict {
+      background-color: #0048C6;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 537px !important;
+    position: absolute;
+    top: 150px;
+    left: 123px;
+    z-index: 1;
+}
+
+.img_box_vict{
+  transform: translateX(169px); /* adjust value */
+}
+
+.spots_box_vict{
+ 
+    right: 69px;
+    top: 396px;
+    
+}
+
+
+.second_img_box_vict{
+   transform: translateY(213px);
+}
+
+.fact-box_vict{
+   background-color: #62BCB3;
+    color: white;
+    padding: 15px;
+    width: 339px;
+    border-radius: 10px;
+    position: absolute;
+    left: 335px;
+    top: 72px;
+    z-index: 1;
+}
+
+.img_box_small_vict{
+  transform: translate(-98px, 320px);
+  
+}
+
+.buzz_box_yellow{
+   background-color: #FF9222;
+    right: 220px;
+    left: auto;
+    top: 292px;
+    z-index: 2;
+}
+
+
+
+
+.buzz-box_vict{
+   width: 509px;
+  background-color: #168771;
+  color: white;
+  border-radius: 10px;
+  
+}
+
+.fact_box_2_vict{
+  margin-top: 221px;
+    margin-left: 213px;
+}
+
+.section_wrapper.top_space_last_section .img_box_03_vict {
+    text-align: left;
+}
+
+
+.fact-box_bottom{
+  width: 441px;
+}
+
+
+.third_shape_wrapper .fact-box_bottom {
+    background-color: #62BCB3;
+    top: 53px;
+    right: 200px;
+}
+
+
+
+.img_box_03_vict{
+ transform: translate(124px, 115px);
+}
+
+
+.third_shape_wrapper .fact-box_yellow{
+  width: 314px;
+background-color: #FF9222;
+}
+
+
+.extra_box {
+    background-color: #FF4602 !important; /* blue example */
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    max-width: 314px;
+    position: absolute;
+    margin-top: 420px;
+    margin-right: 240px;
+}
+
+.d-flex {
+    display: flex;
+}
+
+.gap-3 {
+    gap: 20px; /* space between blob and new box */
+}
+
+
+.button_block_vict{
+    margin-top: 250px !important; /* increase as much as needed */
+    margin-bottom: 100px !important; /* remove bottom margin */
+}
+
+
+
+
+
+
+
+
+
+
+
 
