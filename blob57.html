@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>3 Blobs with Video + Ripple</title>
+<style>
+  :root{
+    --blob-max-width: 410px;
+  }
+  body {
+    margin: 0;
+    background: #fff;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+
+  .blob-section {
+    position: relative;
+    text-align: center;
+    padding-top: 148px;
+  }
+
+  .title-text {
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+    line-height: 1.3;
+  }
+
+  .blob-container {
+    position: relative;
+    width: 100%;
+    max-width: 1000px;
+    height: 500px; /* control area height */
+    margin: 0 auto;
+  }
+
+  .blob-wrapper {
+    position: absolute;
+    width: var(--blob-max-width);
+    max-width: 81%;
+    pointer-events: none; /* allow pointer events to fall through to svg/button where needed */
+  }
+
+  /* Position blobs like Figma */
+  .blob1 { left: 111px; top: -92px; }
+  .blob2 { left: 37%; top: 82px; transform: translateY(1%); }
+  .blob3 { right: -28px; top: 155px; }
+
+  /* Keep svg interactive (pointer-events:auto) so hover works */
+  .blob-wrapper svg, .blob-wrapper button {
+    pointer-events: auto;
+  }
+
+  /* canvas overlays (behind SVG but inside wrapper) */
+  .ripple-canvas {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0; /* behind svg paths and button */
+    pointer-events: none; /* don't capture mouse events */
+  }
+
+  svg {
+    width: 100%;
+    height: auto;
+    position: relative;
+    z-index: 1;
+    display: block;
+  }
+
+  /* place foreignObject/video and button above ripple */
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+    display:block;
+  }
+
+  .explore-btn {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    padding: 10px 16px;
+    border-radius: 8px;
+    background: #111;
+    color: #fff;
+    border: 0;
+    font-weight: 700;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    cursor: pointer;
+    z-index: 2;
+    pointer-events: auto;
+  }
+
+  text {
+    font-weight: 600;
+    fill: #111;
+    font-size: 12px;
+  }
+
+  /* make layout responsive a bit */
+  @media (max-width: 900px){
+    .blob-container { height: 420px; }
+    :root{ --blob-max-width: 320px; }
+    .blob1 { left: 30px; top: -50px; }
+    .blob3 { right: -10px; top: 140px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="blob-section">
+  <div class="blob-container">
+
+    <!-- Blob 1 -->
+    <div class="blob-wrapper blob1" data-path-id="pathBlob1">
+      <canvas class="ripple-canvas"></canvas>
+      <button class="explore-btn">EXPLORE</button>
+      <svg viewBox="0 0 382 375" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="clipBlob1">
+            <path id="pathBlob1"
+              d="M50.8352 355.456C23.1658 336.692 -3.00142 300.649 1.25966 264.258C4.79506 234.065 26.4723 231.014 44.1188 191.85C67.2346 140.534 44.9462 115.274 60.2104 81.7742C90.0973 16.185 222.998 -32.5226 309.892 29.0007C364.632 67.7534 397.631 147.742 373.561 197.143C352.106 241.186 305.302 224.885 233.853 290.948C193.135 328.597 192.559 354.021 155.932 367.739C125.477 379.143 84.401 378.231 50.8289 355.464L50.8352 355.456Z"/>
+          </clipPath>
+        </defs>
+        <path fill="#FF4602" d="M50.8352 355.456C23.1658 336.692 -3.00142 300.649 1.25966 264.258C4.79506 234.065 26.4723 231.014 44.1188 191.85C67.2346 140.534 44.9462 115.274 60.2104 81.7742C90.0973 16.185 222.998 -32.5226 309.892 29.0007C364.632 67.7534 397.631 147.742 373.561 197.143C352.106 241.186 305.302 224.885 233.853 290.948C193.135 328.597 192.559 354.021 155.932 367.739C125.477 379.143 84.401 378.231 50.8289 355.464L50.8352 355.456Z"/>
+        <foreignObject x="0" y="0" width="382" height="375" clip-path="url(#clipBlob1)">
+          <video src="street.mp4" muted loop playsinline></video>
+        </foreignObject>
+        <text>
+          <textPath href="#pathBlob1" startOffset="50%" text-anchor="middle">COVENT GARDEN</textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- Blob 2 -->
+    <div class="blob-wrapper blob2" data-path-id="pathCustom">
+      <canvas class="ripple-canvas"></canvas>
+      <button class="explore-btn">EXPLORE</button>
+      <svg viewBox="0 0 545 481" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="clipCustom">
+            <path id="pathCustom"
+              d="M349.688 283.26C288.227 374.602 299.803 432.885 235.149 465.215C173.352 496.12 109.5 469.525 104.484 467.341C19.9449 430.584 -17.015 318.59 7.98327 239.808C24.0513 189.172 80.5949 157.284 193.02 95.5619C324.179 23.5659 413.344 -23.7849 488.357 12.9633C500.718 19.0197 537.807 37.1877 543.564 69.6939C554.468 131.242 436.988 153.52 349.688 283.26Z"/>
+          </clipPath>
+        </defs>
+        <path fill="#62BCB3" d="M349.688 283.26C288.227 374.602 299.803 432.885 235.149 465.215C173.352 496.12 109.5 469.525 104.484 467.341C19.9449 430.584 -17.015 318.59 7.98327 239.808C24.0513 189.172 80.5949 157.284 193.02 95.5619C324.179 23.5659 413.344 -23.7849 488.357 12.9633C500.718 19.0197 537.807 37.1877 543.564 69.6939C554.468 131.242 436.988 153.52 349.688 283.26Z"/>
+        <foreignObject x="0" y="0" width="545" height="481" clip-path="url(#clipCustom)">
+          <video src="street.mp4" muted loop playsinline></video>
+        </foreignObject>
+        <text>
+          <textPath href="#pathCustom" startOffset="50%" text-anchor="middle">VICTORIA EMBANKMENT</textPath>
+        </text>
+      </svg>
+    </div>
+
+    <!-- Blob 3 -->
+    <div class="blob-wrapper blob3" data-path-id="pathBlob3">
+      <canvas class="ripple-canvas"></canvas>
+      <button class="explore-btn">EXPLORE</button>
+      <svg viewBox="0 0 354 367" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <clipPath id="clipBlob3">
+            <path id="pathBlob3"
+              d="M309.904 187.446C286.216 276.979 314.096 311.108 283.402 342.541C242.156 384.771 156.476 359.335 145.011 355.932C81.7785 337.163 0.280483 278.995 0.933357 203.254C1.46378 142.013 55.403 101.904 118.08 55.2835C159.065 24.8119 196.336 -2.07573 247.49 0.846624C283.239 2.88294 336.83 20.1089 350.777 58.6078C363.518 93.7828 330.008 111.472 309.912 187.454L309.904 187.446Z"/>
+          </clipPath>
+        </defs>
+        <path fill="#FF9222" d="M309.904 187.446C286.216 276.979 314.096 311.108 283.402 342.541C242.156 384.771 156.476 359.335 145.011 355.932C81.7785 337.163 0.280483 278.995 0.933357 203.254C1.46378 142.013 55.403 101.904 118.08 55.2835C159.065 24.8119 196.336 -2.07573 247.49 0.846624C283.239 2.88294 336.83 20.1089 350.777 58.6078C363.518 93.7828 330.008 111.472 309.912 187.454L309.904 187.446Z"/>
+        <foreignObject x="0" y="0" width="354" height="367" clip-path="url(#clipBlob3)">
+          <video src="street.mp4" muted loop playsinline></video>
+        </foreignObject>
+        <text>
+          <textPath href="#pathBlob3" startOffset="50%" text-anchor="middle">SOUTHBANK</textPath>
+        </text>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<script>
+/* ----- Physics constants (from you) ----- */
+const stiffness = 0.09;
+const damping = 0.97;
+const mouseForce = 170;
+const mouseRadius = 50;
+
+/* Utility: linear interpolation */
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+/* Setup ripple system per blob-wrapper */
+document.querySelectorAll('.blob-wrapper').forEach(setupBlobRipple);
+
+function setupBlobRipple(wrapper){
+  const svg = wrapper.querySelector('svg');
+  const pathId = wrapper.dataset.pathId;
+  const path = svg.querySelector('#' + pathId);
+  const canvas = wrapper.querySelector('canvas.ripple-canvas');
+  const video = wrapper.querySelector('video');
+  const btn = wrapper.querySelector('.explore-btn');
+
+  /* set canvas size to svg rendered size */
+  function resizeCanvas(){
+    const rect = svg.getBoundingClientRect();
+    canvas.width = Math.round(rect.width);
+    canvas.height = Math.round(rect.height);
+    canvas.style.width = rect.width + 'px';
+    canvas.style.height = rect.height + 'px';
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  /* Hover video logic (unchanged) */
+  wrapper.addEventListener('mouseenter', ()=>{
+    video.style.opacity = 1;
+    video.play();
+    btn.style.opacity = 1;
+  });
+  wrapper.addEventListener('mouseleave', ()=>{
+    video.style.opacity = 0;
+    video.pause();
+    btn.style.opacity = 0;
+  });
+
+  /* Build perimeter sample points from SVG path */
+  // Use path.getTotalLength and sample N points
+  const totalLength = path.getTotalLength();
+  const N = Math.max(32, Math.round(totalLength / 14)); // more samples for bigger paths
+  const points = [];
+  for(let i=0;i<N;i++){
+    const t = i / N;
+    const L = t * totalLength;
+    const p = path.getPointAtLength(L);
+    points.push({
+      x: p.x,
+      y: p.y,
+      ox: p.x, // original
+      oy: p.y,
+      vx: 0,
+      vy: 0,
+      normalX: 0, // will compute normal
+      normalY: 0
+    });
+  }
+
+  // compute normals per point using neighbors (simple perpendicular)
+  function computeNormals(){
+    for(let i=0;i<points.length;i++){
+      const a = points[(i - 1 + points.length) % points.length];
+      const b = points[i];
+      const c = points[(i + 1) % points.length];
+      // tangent vector
+      const tx = c.x - a.x;
+      const ty = c.y - a.y;
+      const len = Math.hypot(tx, ty) || 1;
+      const nx = -ty / len;
+      const ny = tx / len;
+      b.normalX = nx;
+      b.normalY = ny;
+    }
+  }
+  computeNormals();
+
+  // canvas drawing context
+  const ctx = canvas.getContext('2d');
+
+  // transform mouse coords into SVG local coords
+  let mouse = {x:-1000, y:-1000, down:false};
+  window.addEventListener('pointermove', (e)=>{
+    const svgRect = svg.getBoundingClientRect();
+    mouse.x = e.clientX - svgRect.left;
+    mouse.y = e.clientY - svgRect.top;
+  });
+
+  // For touch devices, pointer events work as well.
+
+  // Animation loop: spring physics on radial displacement along normal
+  function animate(){
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+
+    // update physics for each point
+    for(let i=0;i<points.length;i++){
+      const p = points[i];
+
+      // distance from mouse
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.hypot(dx, dy);
+
+      // apply mouse force if within radius
+      if(dist < mouseRadius){
+        const influence = (1 - (dist / mouseRadius));
+        const force = mouseForce * influence;
+        // push along normal (outwards or inwards depending on pointer side)
+        p.vx += p.normalX * force * 0.001; // scaled
+        p.vy += p.normalY * force * 0.001;
+      }
+
+      // spring toward original + small wobble along normal
+      // target position = original + (normal * offset)
+      // we store offset implicitly via vx/vy integrating toward original
+      const tx = p.ox - p.x;
+      const ty = p.oy - p.y;
+
+      // spring force toward original
+      p.vx += tx * stiffness;
+      p.vy += ty * stiffness;
+
+      // damping
+      p.vx *= damping;
+      p.vy *= damping;
+
+      // integrate
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+
+    // draw ripple shape as a translucent filled polygon that follows displaced points
+    // We'll draw a smoothed path using quadratic curves
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = 0.25; // subtle transparency
+    ctx.fillStyle = 'rgba(255,255,255,0.12)'; // soft (white-ish) ripple that blends
+    // multiply the ripple color to better match each blob color: sample underlying path fill is not accessible easily.
+    // We'll use 'destination-over' blending with blur to produce a watery distortion look.
+    ctx.beginPath();
+
+    // Move to first point
+    const first = points[0];
+    ctx.moveTo(first.x, first.y);
+
+    // Smooth via quadratic curve between midpoints
+    for(let i=1;i<=points.length;i++){
+      const p0 = points[(i-1) % points.length];
+      const p1 = points[i % points.length];
+      const cx = (p0.x + p1.x) / 2;
+      const cy = (p0.y + p1.y) / 2;
+      ctx.quadraticCurveTo(p0.x, p0.y, cx, cy);
+    }
+    ctx.closePath();
+
+    // Apply blur using shadow (cheap blur)
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.08)';
+    ctx.shadowBlur = 18;
+    ctx.fill();
+    ctx.restore();
+
+    // draw an inner lighter highlight line for watery look
+    ctx.strokeStyle = 'rgba(255,255,255,0.25)';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    ctx.restore();
+
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+
+  // Small periodic relaxation: gently nudge points back to original if mouse far (already handled by spring),
+  // but occasionally recompute normals in case of layout changes.
+  let normalRecomputeTimer = 0;
+  function tick(){
+    normalRecomputeTimer++;
+    if(normalRecomputeTimer % 150 === 0){
+      // recompute normals and resample positions based on path in case SVG reflowed (rare)
+      const updatedTotal = path.getTotalLength();
+      for(let i=0;i<points.length;i++){
+        const L = (i / points.length) * updatedTotal;
+        const p = path.getPointAtLength(L);
+        points[i].ox = p.x;
+        points[i].oy = p.y;
+        // keep current x,y to avoid snap
+      }
+      computeNormals();
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // Improve visual by fading ripple when mouse far away:
+  // We'll modulate globalAlpha of drawing based on nearest distance to points
+  // Replace animation drawing with variant that reads alpha. (We'll override animate above)
+  // To keep code compact, instead adapt the globalAlpha each frame using nearest distance:
+  let drawAlpha = 0.25;
+  const originalAnimate = animate;
+  function animateWithAlpha(){
+    // compute min distance
+    let minD = 1e9;
+    for(let i=0;i<points.length;i++){
+      const p = points[i];
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const d = Math.hypot(dx,dy);
+      if(d < minD) minD = d;
+    }
+    // when mouse within mouseRadius*2 => visible; else fade out
+    if(minD < mouseRadius*2){
+      // nearer -> stronger alpha
+      const t = 1 - Math.min(minD / (mouseRadius*2), 1);
+      drawAlpha = lerp(drawAlpha, 0.35 * t + 0.05, 0.18);
+    } else {
+      drawAlpha = lerp(drawAlpha, 0.02, 0.08);
+    }
+
+    ctx.clearRect(0,0,canvas.width, canvas.height);
+
+    // draw path with current alpha
+    ctx.save();
+    ctx.globalCompositeOperation = 'source-over';
+    ctx.globalAlpha = drawAlpha;
+    ctx.fillStyle = 'rgba(255,255,255,0.12)';
+    ctx.beginPath();
+    const first = points[0];
+    ctx.moveTo(first.x, first.y);
+    for(let i=1;i<=points.length;i++){
+      const p0 = points[(i-1) % points.length];
+      const p1 = points[i % points.length];
+      const cx = (p0.x + p1.x) / 2;
+      const cy = (p0.y + p1.y) / 2;
+      ctx.quadraticCurveTo(p0.x, p0.y, cx, cy);
+    }
+    ctx.closePath();
+    ctx.save();
+    ctx.shadowColor = 'rgba(0,0,0,0.06)';
+    ctx.shadowBlur = 14;
+    ctx.fill();
+    ctx.restore();
+
+    ctx.strokeStyle = 'rgba(255,255,255,0.22)';
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+
+    ctx.restore();
+
+    // update physics (move points) after drawing so displacement lags slightly (smoother)
+    for(let i=0;i<points.length;i++){
+      const p = points[i];
+      const dx = p.x - mouse.x;
+      const dy = p.y - mouse.y;
+      const dist = Math.hypot(dx, dy);
+
+      if(dist < mouseRadius){
+        const influence = (1 - (dist / mouseRadius));
+        const force = mouseForce * influence;
+        p.vx += p.normalX * force * 0.001;
+        p.vy += p.normalY * force * 0.001;
+      }
+
+      const tx = p.ox - p.x;
+      const ty = p.oy - p.y;
+
+      p.vx += tx * stiffness;
+      p.vy += ty * stiffness;
+
+      p.vx *= damping;
+      p.vy *= damping;
+
+      p.x += p.vx;
+      p.y += p.vy;
+    }
+
+    requestAnimationFrame(animateWithAlpha);
+  }
+  requestAnimationFrame(animateWithAlpha);
+}
+</script>
+
+</body>
+</html>

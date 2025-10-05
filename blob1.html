@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Fluid Blobs with Video Hover</title>
+<style>
+:root { --blob-max-width: 410px; }
+body { margin:0; font-family:Arial,Helvetica,sans-serif; background:#fff; }
+.blob-section { position:relative; text-align:center; padding-top:148px; }
+.blob-container { position:relative; width:100%; max-width:1000px; height:500px; margin:0 auto; }
+.blob-wrapper { position:absolute; width:var(--blob-max-width); max-width:81%; pointer-events:none; }
+.blob1 { left:111px; top:-92px; }
+.blob2 { left:37%; top:82px; transform:translateY(1%); }
+.blob3 { right:-28px; top:155px; }
+.blob-wrapper svg, .blob-wrapper button, .blob-wrapper video { pointer-events:auto; }
+.ripple-canvas { position:absolute; left:0; top:0; width:100%; height:100%; z-index:2; pointer-events:none; }
+video { width:100%; height:100%; object-fit:cover; opacity:0; transition:opacity 0.5s ease; position:absolute; top:0; left:0; z-index:3; }
+.explore-btn { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); padding:10px 16px; border-radius:8px; background:#111; color:#fff; border:0; font-weight:700; opacity:0; transition:opacity 0.3s ease; cursor:pointer; z-index:4; }
+text { font-weight:600; fill:#111; font-size:12px; }
+@media(max-width:900px){ .blob-container{height:420px;} :root{--blob-max-width:320px;} .blob1{left:30px;top:-50px;} .blob3{right:-10px;top:140px;} }
+</style>
+</head>
+<body>
+
+<div class="blob-section">
+  <div class="blob-container">
+
+    <!-- Blob 1 -->
+    <div class="blob-wrapper blob1" data-path-id="pathBlob1">
+      <canvas class="ripple-canvas"></canvas>
+      <video src="street.mp4" muted loop playsinline></video>
+      <button class="explore-btn">EXPLORE</button>
+      <svg viewBox="0 0 382 375">
+        <defs>
+          <clipPath id="clipBlob1">
+            <path id="pathBlob1" d="M50.8352 355.456C23.1658 336.692 ... 50.8289 355.464Z"/>
+          </clipPath>
+        </defs>
+        <path fill="#FF4602" d="M50.8352 355.456C23.1658 336.692 ... 50.8289 355.464Z"/>
+        <foreignObject x="0" y="0" width="382" height="375" clip-path="url(#clipBlob1)">
+        </foreignObject>
+        <text><textPath href="#pathBlob1" startOffset="50%" text-anchor="middle">COVENT GARDEN</textPath></text>
+      </svg>
+    </div>
+
+    <!-- Blob 2 -->
+    <div class="blob-wrapper blob2" data-path-id="pathCustom">
+      <canvas class="ripple-canvas"></canvas>
+      <video src="street.mp4" muted loop playsinline></video>
+      <button class="explore-btn">EXPLORE</button>
+      <svg viewBox="0 0 545 481">
+        <defs>
+          <clipPath id="clipCustom">
+            <path id="pathCustom" d="M349.688 283.26C288.227 374.602 ... 349.688 283.26Z"/>
+          </clipPath>
+        </defs>
+        <path fill="#62BCB3" d="M349.688 283.26C288.227 374.602 ... 349.688 283.26Z"/>
+        <foreignObject x="0" y="0" width="545" height="481" clip-path="url(#clipCustom)"></foreignObject>
+        <text><textPath href="#pathCustom" startOffset="50%" text-anchor="middle">VICTORIA EMBANKMENT</textPath></text>
+      </svg>
+    </div>
+
+    <!-- Blob 3 -->
+    <div class="blob-wrapper blob3" data-path-id="pathBlob3">
+      <canvas class="ripple-canvas"></canvas>
+      <video src="street.mp4" muted loop playsinline></video>
+      <button class="explore-btn">EXPLORE</button>
+      <svg viewBox="0 0 354 367">
+        <defs>
+          <clipPath id="clipBlob3">
+            <path id="pathBlob3" d="M309.904 187.446C286.216 276.979 ... 309.912 187.454Z"/>
+          </clipPath>
+        </defs>
+        <path fill="#FF9222" d="M309.904 187.446C286.216 276.979 ... 309.912 187.454Z"/>
+        <foreignObject x="0" y="0" width="354" height="367" clip-path="url(#clipBlob3)"></foreignObject>
+        <text><textPath href="#pathBlob3" startOffset="50%" text-anchor="middle">SOUTHBANK</textPath></text>
+      </svg>
+    </div>
+
+  </div>
+</div>
+
+<script>
+const stiffness=0.09,damping=0.97,mouseForce=170,mouseRadius=50;
+function lerp(a,b,t){return a+(b-a)*t;}
+document.querySelectorAll('.blob-wrapper').forEach(wrapper=>{
+  const svg=wrapper.querySelector('svg'), pathId=wrapper.dataset.pathId;
+  const path=svg.querySelector('#'+pathId), canvas=wrapper.querySelector('canvas.ripple-canvas');
+  const video=wrapper.querySelector('video'), btn=wrapper.querySelector('.explore-btn');
+  const ctx=canvas.getContext('2d');
+
+  function resizeCanvas(){const rect=svg.getBoundingClientRect(); canvas.width=rect.width; canvas.height=rect.height;}
+  resizeCanvas(); window.addEventListener('resize',resizeCanvas);
+
+  wrapper.addEventListener('mouseenter',()=>{video.style.opacity=1; video.play(); btn.style.opacity=1;});
+  wrapper.addEventListener('mouseleave',()=>{video.style.opacity=0; video.pause(); btn.style.opacity=0;});
+
+  const totalLength=path.getTotalLength(); const N=Math.max(32,Math.round(totalLength/14)); const points=[];
+  for(let i=0;i<N;i++){const L=(i/N)*totalLength; const p=path.getPointAtLength(L);
+    points.push({x:p.x,y:p.y,ox:p.x,oy:p.y,vx:0,vy:0,normalX:0,normalY:0});}
+  function computeNormals(){for(let i=0;i<points.length;i++){const a=points[(i-1+points.length)%points.length],b=points[i],c=points[(i+1)%points.length];
+    const tx=c.x-a.x,ty=c.y-a.y,len=Math.hypot(tx,ty)||1; b.normalX=-ty/len; b.normalY=tx/len;}}
+  computeNormals();
+
+  const mouse={x:-1000,y:-1000};
+  window.addEventListener('pointermove',e=>{const rect=svg.getBoundingClientRect(); mouse.x=e.clientX-rect.left; mouse.y=e.clientY-rect.top;});
+
+  function animate(){ctx.clearRect(0,0,canvas.width,canvas.height); let minD=1e9;
+    points.forEach(p=>{const dx=p.x-mouse.x,dy=p.y-mouse.y,dist=Math.hypot(dx,dy);
+      if(dist<mouseRadius){const influence=(1-dist/mouseRadius),force=mouseForce*influence; p.vx+=p.normalX*force*0.001; p.vy+=p.normalY*force*0.001;}
+      const tx=p.ox-p.x,ty=p.oy-p.y; p.vx+=tx*stiffness; p.vy+=ty*stiffness; p.vx*=damping; p.vy*=damping; p.x+=p.vx; p.y+=p.vy;
+      if(dist<minD) minD=dist;});
+    const alpha=minD<mouseRadius*2?lerp(0.02,0.35*(1-minD/(mouseRadius*2))+0.05,0.18):0.02;
+
+    ctx.save(); ctx.globalAlpha=alpha; ctx.beginPath();
+    const first=points[0]; ctx.moveTo(first.x,first.y);
+    for(let i=1;i<=points.length;i++){const p0=points[(i-1)%points.length],p1=points[i%points.length]; ctx.quadraticCurveTo(p0.x,p0.y,(p0.x+p1.x)/2,(p0.y+p1.y)/2);}
+    ctx.closePath(); ctx.fillStyle='rgba(255,255,255,0.12)'; ctx.shadowColor='rgba(0,0,0,0.06)'; ctx.shadowBlur=14; ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.22)'; ctx.lineWidth=1.5; ctx.stroke(); ctx.restore();
+    requestAnimationFrame(animate);
+  }
+  animate();
+});
+</script>
+</body>
+</html>
