@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Blob Video on Hover</title>
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  
+<style>
+  body {
+    margin: 0;
+    background: #fff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+    flex-direction: column;
+  }
+  canvas {
+    width: 100%;
+    height: 100%;
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 1;
+  }
+  h1 {
+    position: relative;
+    z-index: 3;
+    font-size: 3rem;
+    font-weight: 900;
+    text-align: center;
+    margin: 0;
+    color: #000;
+  }
+  .blob-button {
+    position: absolute;
+    padding: 10px 20px;
+    /* background-color: red;  This will be set dynamically now */
+    color: #fff;
+    border: none;
+    border-radius: 30px; /* Applied 30px border-radius */
+    cursor: pointer;
+    opacity: 0;
+    transition: opacity 0.3s ease, background-color 0.3s ease; /* Smooth transition for color */
+    z-index: 4;
+    font-size: 14px;
+    pointer-events: none;
+    display: flex; /* Use flexbox for button content */
+    align-items: center;
+    justify-content: center;
+  }
+  .blob-button.show {
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .blob-button .icon {
+    margin-left: 8px; /* Space between text and icon */
+  }
+  video {
+    display: none; /* hidden, drawn on canvas */
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+<canvas id="blobCanvas"></canvas>
+<h1>THREE VIBRANT<br>DISTRICTS</h1>
+<button id="blobBtn" class="blob-button">EXPLORE <span class="icon"><i class="fas fa-arrow-right"></i></span></button>
+<video id="blobVideo" src="street.mp4" muted loop></video> 
+
+</div>
+
+<script>
+const canvas = document.getElementById("blobCanvas");
+const ctx = canvas.getContext("2d");
+const btn = document.getElementById("blobBtn");
+const video = document.getElementById("blobVideo");
+
+video.muted = true;
+video.loop = true;
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let time = 0;
+let mouse = { x: canvas.width/2, y: canvas.height/2 };
+let hoveredBlob = null;
+let blobs = [];
+
+document.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+document.addEventListener("touchmove", e => {
+  if(e.touches.length>0){
+    mouse.x = e.touches[0].clientX;
+    mouse.y = e.touches[0].clientY;
+  }
+});
+
+function generateBlobPath(cx, cy, baseRadius, freq, amp, speed, yScale=1) {
+  const points = 200; 
+  let pathPoints = [];
+
+  let dx = mouse.x - cx;
+  let dy = mouse.y - cy;
+  let angleToMouse = Math.atan2(dy, dx);
+
+  for (let i=0;i<=points;i++){
+    let angle = (i/points)*Math.PI*2;
+    let offset = Math.sin(angle*freq + time*0.02*speed)*amp + Math.cos(angle*(freq-1)+time*0.03*speed)*(amp/2);
+    let diff = Math.cos(angle - angleToMouse);
+    let inward = Math.max(diff,0)*-20;
+    let r = baseRadius + offset + inward;
+    let x = Math.cos(angle)*r + cx;
+    let y = (Math.sin(angle)*r)*yScale + cy; 
+    pathPoints.push({x,y});
+  }
+  return pathPoints;
+}
+
+function drawCurvedTextOnBlob(pathPoints, text, offsetFromPath = 15, targetFont = "bold 18px Arial", minLetterSpacing = 2) {
+  ctx.save();
+  ctx.fillStyle = "#000";
+  ctx.font = targetFont; 
+  ctx.textAlign = "center"; 
+  ctx.textBaseline = "middle"; 
+
+  const totalPathPoints = pathPoints.length;
+  if (totalPathPoints < 2) { ctx.restore(); return; }
+
+  let topPointIndex = 0;
+  let minY = Infinity;
+  for(let i=0; i<totalPathPoints; i++){
+      if(pathPoints[i].y < minY){
+          minY = pathPoints[i].y;
+          topPointIndex = i;
+      }
+  }
+
+  let textPathSample = [];
+  const samplePointsCount = 40; 
+  const segmentRange = Math.floor(totalPathPoints * 0.4); 
+
+  for (let i = 0; i < samplePointsCount; i++) {
+      let relativeIndex = Math.floor((i / (samplePointsCount - 1)) * segmentRange) - Math.floor(segmentRange / 2);
+      let index = (topPointIndex + relativeIndex + totalPathPoints) % totalPathPoints;
+      textPathSample.push(pathPoints[index]);
+  }
+
+  if (textPathSample.length < 2) { ctx.restore(); return; }
+
+  let pathDistances = [0];
+  let currentPathLength = 0;
+  for (let i = 1; i < textPathSample.length; i++) {
+      let p1 = textPathSample[i - 1];
+      let p2 = textPathSample[i];
+      let dist = Math.sqrt((p2.x - p1.x)**2 + (p2.y - p1.y)**2);
+      currentPathLength += dist;
+      pathDistances.push(currentPathLength);
+  }
+  let totalTextPathLength = currentPathLength;
+
+  let charMeasurements = [];
+  let totalTextRenderWidth = 0;
+  for (let i = 0; i < text.length; i++) {
+      let char = text[i];
+      let charWidth = ctx.measureText(char).width;
+      charMeasurements.push({ char, width: charWidth });
+      totalTextRenderWidth += charWidth + minLetterSpacing;
+  }
+  totalTextRenderWidth -= minLetterSpacing; 
+
+  let startDistanceOnPath = (totalTextPathLength - totalTextRenderWidth) / 2;
+  if (startDistanceOnPath < 0) startDistanceOnPath = 0; 
+
+  let currentTextPos = startDistanceOnPath;
+
+  for (let i = 0; i < text.length; i++) {
+      let charData = charMeasurements[i];
+      let char = charData.char;
+      let charWidth = charData.width;
+
+      let charCenterOnPath = currentTextPos + charWidth / 2;
+
+      let p = null; 
+      let angle = 0; 
+
+      for (let j = 0; j < textPathSample.length - 1; j++) {
+          if (charCenterOnPath >= pathDistances[j] && charCenterOnPath <= pathDistances[j+1]) {
+              let p1 = textPathSample[j];
+              let p2 = textPathSample[j+1];
+              let segmentStartDist = pathDistances[j];
+              let segmentEndDist = pathDistances[j+1];
+
+              let segmentLength = segmentEndDist - segmentStartDist;
+              let t = (charCenterOnPath - segmentStartDist) / segmentLength; 
+
+              p = {
+                  x: p1.x + t * (p2.x - p1.x),
+                  y: p1.y + t * (p2.y - p1.y)
+              };
+              angle = Math.atan2(p2.y - p1.y, p2.x - p1.x); 
+              break;
+          }
+      }
+      
+      if (!p && textPathSample.length > 0) {
+          if (charCenterOnPath < pathDistances[0]) {
+              p = textPathSample[0];
+              angle = Math.atan2(textPathSample[1].y - textPathSample[0].y, textPathSample[1].x - textPathSample[0].x);
+          } else if (charCenterOnPath > pathDistances[pathDistances.length - 1]) {
+              p = textPathSample[textPathSample.length - 1];
+              angle = Math.atan2(textPathSample[textPathSample.length - 1].y - textPathSample[textPathSample.length - 2].y, textPathSample[textPathSample.length - 1].x - textPathSample[textPathSample.length - 2].x);
+          }
+      }
+
+
+      if (p) {
+          let charX = p.x + Math.cos(angle - Math.PI/2) * offsetFromPath;
+          let charY = p.y + Math.sin(angle - Math.PI/2) * offsetFromPath;
+
+          ctx.save();
+          ctx.translate(charX, charY);
+          ctx.rotate(angle); 
+          ctx.fillText(char, 0, 0); 
+          ctx.restore();
+      }
+      
+      currentTextPos += charWidth + minLetterSpacing; 
+  }
+  
+  ctx.restore();
+}
+
+
+function drawBlob(centerX, centerY, baseRadius, freq, amp, speed, color1, color2, yScale=1){
+  const pathPoints = generateBlobPath(centerX, centerY, baseRadius, freq, amp, speed, yScale); 
+
+   // Draw blob shape
+  ctx.beginPath();
+  ctx.moveTo(pathPoints[0].x, pathPoints[0].y);
+  for(let i=1;i<pathPoints.length;i++){
+    ctx.lineTo(pathPoints[i].x, pathPoints[i].y);
+  }
+  ctx.closePath();
+
+  const gradient = ctx.createLinearGradient(centerX-baseRadius, centerY-baseRadius, centerX+baseRadius, centerY+baseRadius);
+  gradient.addColorStop(0,color1);
+  gradient.addColorStop(1,color2);
+  ctx.fillStyle = gradient;
+  ctx.globalAlpha = 1;
+  ctx.fill();
+
+  // Store the primary color of the blob with the other blob data
+  blobs.push({cx:centerX, cy:centerY, radius: baseRadius*1.1 + amp + 20, path: pathPoints, color: color1});
+
+  return {cx:centerX, cy:centerY, path: pathPoints, color: color1}; // Also return color here
+}
+
+
+function animate() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  blobs = [];
+  hoveredBlob = null;
+
+  let baseRadius = 150; 
+  let spacing = 350;    
+
+  if (canvas.width < 768) {
+    spacing = 0; 
+  }
+
+  // --- DRAW BLOBS AND CAPTURE PATHS ---
+  let firstBlob = drawBlob(
+    canvas.width / 2 - spacing,
+    canvas.height / 2 - 80,
+    baseRadius,
+    3,
+    20,
+    1,
+    "#ff3300", // Red blob color
+    "#ff3300",
+    1 
+  );
+
+  let secondBlob = drawBlob(
+    canvas.width / 2,
+    canvas.height / 2,
+    baseRadius,
+    3,
+    20,
+    1.1,
+    "#00bfbf", // Cyan blob color
+    "#00bfbf",
+    1.3 
+  );
+
+  let thirdBlob = drawBlob(
+    canvas.width / 2 + spacing,
+    canvas.height / 2 + 80,
+    baseRadius,
+    3,
+    20,
+    0.9,
+    "#ff9900", // Orange blob color
+    "#ff9900",
+    1.1 
+  );
+
+  // --- HOVER DETECTION & VIDEO CONTROL ---
+  for (let b of blobs) {
+    let dx = mouse.x - b.cx;
+    let dy = b.cy - mouse.y; 
+    if (Math.sqrt(dx * dx + dy * dy) < b.radius) {
+      hoveredBlob = b;
+      btn.classList.add("show");
+      btn.style.left = b.cx - btn.offsetWidth / 2 + "px";
+      btn.style.top = b.cy - btn.offsetHeight / 2 + "px"; 
+      btn.style.backgroundColor = b.color; // Set button color to hovered blob color
+      
+      if (video.paused) {
+        const playPromise = video.play();
+        if (playPromise !== undefined) {
+            playPromise.then(_ => {
+                // Playback started successfully
+            }).catch(error => {
+                // Autoplay was prevented
+            });
+        }
+      }
+      break;
+    }
+  }
+  
+  if (!hoveredBlob) {
+    btn.classList.remove("show");
+    video.pause();
+  }
+
+  // --- DRAW VIDEO INSIDE HOVERED BLOB ---
+  if (hoveredBlob && video.readyState >= 2) { 
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(hoveredBlob.path[0].x, hoveredBlob.path[0].y);
+    for (let i = 1; i < hoveredBlob.path.length; i++) {
+      ctx.lineTo(hoveredBlob.path[i].x, hoveredBlob.path[i].y);
+    }
+    ctx.closePath();
+    ctx.clip(); 
+
+    const aspect = video.videoWidth / video.videoHeight;
+    let blobBoxWidth = hoveredBlob.radius * 2;
+    let blobBoxHeight = hoveredBlob.radius * 2;
+    let w, h;
+    
+    if (aspect >= 1) {
+      w = blobBoxWidth * aspect;
+      h = blobBoxHeight;
+    } else {
+      w = blobBoxWidth;
+      h = blobBoxHeight / aspect;
+    }
+
+    ctx.drawImage(video, hoveredBlob.cx - w / 2, hoveredBlob.cy - h / 2, w, h);
+    ctx.restore();
+  }
+
+  // --- DRAW CURVED TEXTS ---
+  drawCurvedTextOnBlob(firstBlob.path, "COVENT GARDEN", 15, "bold 18px Arial", 2); 
+  drawCurvedTextOnBlob(secondBlob.path, "VICTORIA EMBANKMENT", 15, "bold 18px Arial", 2);
+  drawCurvedTextOnBlob(thirdBlob.path, "SOUTHBANK", 15, "bold 18px Arial", 2);
+
+
+  time++;
+  requestAnimationFrame(animate);
+}
+
+animate();
+</script>
+</body>
+</html>
