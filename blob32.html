@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>3 Smooth Blobs with Floating Text</title>
+  <style>
+    body {
+      margin: 0;
+      overflow: hidden;
+      background: #ffffff;
+      font-family: Arial, sans-serif;
+    }
+    canvas {
+      display: block;
+    }
+    h1 {
+      position: absolute;
+      top: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-size: 32px;
+      color: #000;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+  <h1>THREE VIBRANT DISTRICTS</h1>
+  <canvas id="blobCanvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("blobCanvas");
+    const ctx = canvas.getContext("2d");
+
+    let width, height;
+    let time = 0;
+
+    function resize() {
+      width = window.innerWidth;
+      height = window.innerHeight;
+      canvas.width = width;
+      canvas.height = height;
+    }
+
+    window.addEventListener("resize", resize);
+    resize();
+
+    // === Draw a single blob ===
+    function drawBlob(x, y, radius, k, amp, speed, color, phase, text) {
+      ctx.save();
+      ctx.translate(x, y);
+
+      // Draw blob shape
+      ctx.beginPath();
+      const steps = 360;
+      for (let i = 0; i <= steps; i++) {
+        const angle = (i / steps) * Math.PI * 2;
+        const r = radius + Math.sin(angle * k + time * speed + phase) * amp;
+        const px = Math.cos(angle) * r;
+        const py = Math.sin(angle) * r;
+        if (i === 0) ctx.moveTo(px, py);
+        else ctx.lineTo(px, py);
+      }
+      ctx.closePath();
+      ctx.fillStyle = color;
+      ctx.fill();
+
+      // ===== Smooth floating text above blob =====
+      const textPoints = [];
+      const textStart = -Math.PI / 3; // left-upper start
+      const textEnd = Math.PI / 3;    // right-upper end
+      const textStep = (textEnd - textStart) / text.length;
+      const textRadius = radius + 60; // distance above blob
+
+      for (let i = 0; i < text.length; i++) {
+        const a = textStart + i * textStep;
+        // synchronized with blob wave motion
+        const r = textRadius + Math.sin(time * 0.002 + a * 2 + phase) * 5;
+        const tx = Math.cos(a) * r;
+        const ty = Math.sin(a) * r - 5; // slightly above top curve
+        textPoints.push({ x: tx, y: ty, angle: a });
+      }
+
+      ctx.fillStyle = color;
+      ctx.font = "bold 18px Arial";
+      ctx.textAlign = "center";
+      ctx.textBaseline = "middle";
+
+      textPoints.forEach((p, i) => {
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle - Math.PI / 2);
+        ctx.fillText(text[i], 0, 0);
+        ctx.restore();
+      });
+
+      ctx.restore();
+    }
+
+    // === Animate all blobs ===
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      time += 1;
+
+      const spacing = 400;
+      const baseRadius = 120;
+
+      // Red blob - left
+      drawBlob(width / 2 - spacing, height / 2 - 60, baseRadius, 3, 20, 1, "#ff3300", 1, "COVENT GARDEN");
+
+      // Cyan blob - middle
+      drawBlob(width / 2, height / 2, baseRadius, 3, 20, 1.1, "#00bfbf", 1.3, "VICTORIA EMBANKMENT");
+
+      // Orange blob - right
+      drawBlob(width / 2 + spacing, height / 2 + 60, baseRadius, 3, 20, 0.9, "#ff9900", 1.1, "SOUTHBANK");
+
+      requestAnimationFrame(animate);
+    }
+
+    animate();
+  </script>
+</body>
+</html>
