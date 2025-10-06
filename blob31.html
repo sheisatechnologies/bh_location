@@ -152,6 +152,7 @@ function drawCurvedText(pathPoints, text, position="top", offset=20) {
     pathDistances.push(totalLength);
   }
 
+
   const textWidth = ctx.measureText(text).width;
   const startOffset = (totalLength - textWidth) / 2;
   let currentDist = 0;
@@ -176,7 +177,6 @@ function drawCurvedText(pathPoints, text, position="top", offset=20) {
         break;
       }
     }
-
 
     ctx.save();
     ctx.translate(pos.x, pos.y);
