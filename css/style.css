@@ -1806,10 +1806,11 @@ background-color: #FF9222;
 }
 
 .third_shape_wrapper .fact-box_bottom_south {
-    background-color: #0048C6;
+   background-color: #0048C6;
     top: -32%;
-    right: 9%;
-    padding: 20px;
+    right: 3%;
+    padding: 22px;
+    max-width: 496px;
 }
 
 
