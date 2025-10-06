@@ -8,6 +8,60 @@
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   
 <style>
+  @font-face {
+    font-family: 'Altform TRIAL';
+    src: url('../font/AltformTRIAL-Regular.woff2') format('woff2'),
+        url('../font/AltformTRIAL-Regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Altform TRIAL';
+    src: url('../font/AltformTRIAL-RegularItalic.woff2') format('woff2'),
+        url('../font/AltformTRIAL-RegularItalic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Altform TRIAL';
+    src: url('../font/AltformTRIAL-BoldItalic.woff2') format('woff2'),
+        url('../font/AltformTRIAL-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Altform TRIAL';
+    src: url('../font/AltformTRIAL-Bold.woff2') format('woff2'),
+        url('../font/AltformTRIAL-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Altform TRIAL';
+    src: url('../font/AltformTRIAL-Light.woff2') format('woff2'),
+        url('../font/AltformTRIAL-Light.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Altform TRIAL';
+    src: url('../font/AltformTRIAL-LightItalic.woff2') format('woff2'),
+        url('../font/AltformTRIAL-LightItalic.woff') format('woff');
+    font-weight: 300;
+    font-style: italic;
+    font-display: swap;
+}
+
   body {
     margin: 0;
     background: #fff;
@@ -35,6 +89,7 @@
     text-align: center;
     margin: 0;
     color: #000;
+     font-family: 'Altform TRIAL';
   }
   .blob-button {
     position: absolute;
@@ -128,7 +183,7 @@ function generateBlobPath(cx, cy, baseRadius, freq, amp, speed, yScale=1) {
   return pathPoints;
 }
 
-function drawCurvedTextOnBlob(pathPoints, text, offsetFromPath = 15, targetFont = "bold 18px Arial", minLetterSpacing = 2) {
+function drawCurvedTextOnBlob(pathPoints, text, offsetFromPath = 15, targetFont = "Altform TRIAL", minLetterSpacing = 2) {
   ctx.save();
   ctx.fillStyle = "#000";
   ctx.font = targetFont; 
