@@ -36,7 +36,7 @@
 }
 
 @font-face {
-    font-family: 'Altform TRIAL1';
+    font-family: 'Altform TRIAL';
     src: url('../font/AltformTRIAL-Bold.woff2') format('woff2'),
         url('../font/AltformTRIAL-Bold.woff') format('woff');
     font-weight: bold;
@@ -89,7 +89,15 @@
     text-align: center;
     margin: 0;
     color: #000;
-     font-family: 'Altform TRIAL1';
+     font-family: 'Altform TRIAL';
+  }
+
+  .blob_head{
+    font-family: 'Altform TRIAL', sans-serif;
+    font-size: 67.27px;
+    line-height: 120%;
+    font-weight: bold;
+    letter-spacing: 0px;
   }
   .blob-button {
     position: absolute;
@@ -124,7 +132,7 @@
 
 <div class="container">
 <canvas id="blobCanvas"></canvas>
-<h1>THREE VIBRANT<br>DISTRICTS</h1>
+<h1 class="blob_head">THREE VIBRANT<br>DISTRICTS</h1>
 <button id="blobBtn" class="blob-button">EXPLORE <span class="icon"><i class="fas fa-arrow-right"></i></span></button>
 <video id="blobVideo" src="street.mp4" muted loop></video> 
 

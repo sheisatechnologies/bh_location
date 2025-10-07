@@ -240,7 +240,7 @@ body.scroll-off {
 }
 
 .number_box h4 {
-    font-size: 140px;
+    font-size: 139.77px;
     font-weight: bold;
     margin: 0;
     color: #fff;
@@ -248,11 +248,11 @@ body.scroll-off {
 }
 
 .number_box span {
-    font-size: 30px;
+    font-size: 29.48px;
     color: #fff;
     text-transform: uppercase;
     font-weight: bold;
-    font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
+    font-family: 'Altform', Helvetica, Arial, sans-serif;
 }
 
 .spots_box {
@@ -306,6 +306,7 @@ body.scroll-off {
 .heading_box h2{
      color: #fff;
     font-size: 47px;
+    line-height: 120%;
     font-weight: bold;
     text-transform: uppercase;
     margin: 0;
@@ -335,7 +336,7 @@ body.scroll-off {
 
 .number {
    
-    font-size: 29px;
+    font-size: 29.48px;
     font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
 }
 
@@ -351,8 +352,8 @@ body.scroll-off {
   font-size: 20px;
  line-height: 130%;
 letter-spacing: 5%;
-font-family: 'Altform', Helvetica, Arial, sans-serif;
-  font-weight: normal; /* uses Altform Regular */;
+font-family: 'Altform TRIAL';
+font-weight: normal; /* uses Altform Regular */;
 }
 
 @media (max-width: 576px) {
@@ -412,7 +413,8 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 .station-left {
     display: flex;
     align-items: center;
-    gap: 5px; /* spacing between train icon and station details */
+    gap: 20px; /* spacing between train icon and station details */
+    font-family: 'Altform TRIAL';
 }
 
 .right_details {
@@ -424,7 +426,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 23.45px;
+    font-size: 23.95px;
     font-weight: bold;
     font-family:  'Altform TRIAL', sans-serif;
   font-weight: bold; /* uses Altform Regular */;
@@ -445,7 +447,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 .name {
   flex-grow: 1;
   font-weight: bold;
-  font-size: 23px;
+  font-size: 23.84px;
 }
 
 .line-icon {
@@ -468,7 +470,8 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 }
 
 .buzz-box {
-  width: 441px;
+  width: 100%;
+  max-width: 441px;
   background-color: #62BCB3;
   color: white;
   border-radius: 10px;
@@ -504,14 +507,14 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 }
 
 .buzz-box .big-number {
-  font-size: 140px;
+  font-size: 139.77px;
   font-weight: bold;
   line-height: 120px;
 }
 
 .buzz-box .buzz-text {
-    font-size: 30px;
-    line-height: 33px;
+    font-size: 29.48px;
+    line-height: 110%;
     /* font-weight: bold; */
     font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
 }
@@ -528,7 +531,8 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
        background-color: #0051ce;
     color: white;
     padding: 15px;
-    width: 339px;
+    width: 100%;
+    max-width: 314px;
     border-radius: 10px;
     position: absolute;
    right: 18%;
@@ -544,8 +548,8 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 }
 
 .fact-box .fact-text {
-  font-size: 22px;
-  line-height:  normal;
+  font-size: 23px;
+  line-height:  110%;
   font-weight: 500;
   color: #fff;
   margin-top: 40px;
@@ -556,7 +560,8 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
    background-color: #168771;
     color: white;
     padding: 15px;
-    width: 339px;
+    width: 100%;
+    max-width: 314px;
     border-radius: 10px;
     position: relative;
     margin-top: 3%;
@@ -569,11 +574,11 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
 }
 
 .fact_box_2 .fact-text {
-  font-size: 22px;
+  font-size: 23px;
   line-height:  normal;
   font-weight: 500;
   color: #fff;
-  margin-top: 94px;
+ margin-top: 39px;
 }
 
 .bootom_box {
@@ -618,7 +623,7 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
        transform: translatex(75px);
 }
 .third_shape_wrapper .fact-box .fact-text {
-    margin-top: 70px;
+       margin-top: 44px;
     margin-bottom: 0;
 }
 .button_block{
@@ -759,12 +764,14 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   .third_shape_wrapper .coverd_box {
     position: relative !important;
     width: 100% !important;
-    max-width: 100% !important;
+    
     margin: 20px auto !important;
     top: auto !important;
     left: auto !important;
     right: auto !important;
   }
+
+ 
 
   /* Allow bottom section to stack */
   .bootom_box {
@@ -788,30 +795,45 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
     line-height: 70px;
   }
 
-  .heading_box h2,
-  .box_heading h2,
-  .buzz-title h2 {
-    font-size: 26px;
-    text-align: center;
-  }
+      .heading_box h2, .box_heading h2, .buzz-title h2 {
+        font-size: 18px;
+       
+    }
+     .first_shape_wrapper .coverd_box {
+  
+    max-width: 276.17px;
+   
 }
 
+    
+
+  .img_box_03_first {
+    transform: translatex(0px);
+}
+
+.second_img_box_first {
+    transform: translate(0px, 0px);
+}
+
+.number_box span {
+    font-size: 16.46px;
+   
+}
+}
 /* ================= MOBILE ================= */
 @media (max-width: 575px) {
 
+  .main-text {
+    font-size: 39px;
+    line-height: 120%;
+    font-weight: bold;
+    font-family: 'Altform TRIAL', sans-serif;
+    max-width: 338px;
+  }
 
-  .main-text{
-  font-size: 39px;
-  line-height: 120%;
-  font-weight: bold;
-  font-family: 'Altform TRIAL', sans-serif;
-  max-width: 338px;
- 
-}
-
-.text-with-icon{
-  font-size: 11.62px;
-}
+  .text-with-icon {
+    font-size: 11.62px;
+  }
 
   .section-padding {
     padding-top: 40px;
@@ -832,13 +854,25 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   }
 
   .station-card h3 {
-    font-size: 20px;
+   font-size: 20.67px;
     margin-bottom: 20px;
   }
+  .station-left .icon{
+    max-width: 41.96px;
+  }
+  .station-time {
+    gap: 3px;
+    font-size: 15px;
+}
 
   .station .name {
-    font-size: 16px;
+    font-size: 14px;
   }
+  .buzz-box .buzz-title h2 {
+  
+    font-size: 20.67px;
+  
+}
 
   .spot .number {
     font-size: 16px;
@@ -850,14 +884,18 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
   }
 
   .buzz-box .big-number {
-    font-size: 60px;
+    font-size: 87.53px;
     line-height: 55px;
   }
 
   .buzz-box .buzz-text {
-    font-size: 16px;
+    font-size: 18.46px;
     line-height: 20px;
   }
+
+  .fact_box_2_vict {
+    padding: 18px !important;
+}
 
   .fact-box .fact-text,
   .fact_box_2 .fact-text {
@@ -875,7 +913,41 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
     font-size: 14px;
     padding: 12px;
   }
+
+  .img_box_03_first {
+    transform: translatex(0px);
+  }
+
+  .second_img_box_first {
+    transform: translate(0px, 0px);
+  }
+
+  /* ===============================
+     REORDER SECTIONS ON MOBILE
+     =============================== */
+  .first_shape_wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .first_shape_wrapper .img_box { order: 1; }        /* Vector3 image */
+  .first_shape_wrapper .coverd_box { order: 2; }     /* Fancy Browse box */
+  .first_shape_wrapper .spots_box { order: 3; max-width: 336px; }      /* Top F&B Spots */
+  .first_shape_wrapper .station-card { order: 4; }   /* Station Card */
+
+  /* Optional spacing for neat stacking */
+  .first_shape_wrapper > * {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+
+   .first_shape_wrapper .coverd_box {
+  
+    max-width: 276.17px;
+   
 }
+}
+
 /* Tablet */
 @media (max-width: 991px) {
     .bootom_box .img_box_small {
@@ -1455,13 +1527,14 @@ font-family: 'Altform', Helvetica, Arial, sans-serif;
     color: white;
     padding: 15px;
     width: 100%;
-    max-width: 339px;
+    max-width: 314px;
     border-radius: 10px;
     position: absolute;
    left: 24%;
     top: 5%;
     z-index: 1;
 }
+
 
 .img_box_small_vict{
   transform: translate(-98px, 320px);
@@ -1808,9 +1881,9 @@ background-color: #FF9222;
 .third_shape_wrapper .fact-box_bottom_south {
    background-color: #0048C6;
     top: -32%;
-    right: 3%;
+    right: 5%;
     padding: 22px;
-    max-width: 496px;
+    max-width: 645px;
 }
 
 
@@ -1884,7 +1957,7 @@ background-color: #FF9222;
         width: 100%;
         max-width: 920px;
         margin: 0 auto;
-        text-align: center;
+        
     }
 
     /* Reduce blob image width */
@@ -1980,6 +2053,10 @@ background-color: #FF9222;
   
     transform: translate(0px);
 }
+
+.first_shape_wrapper_vict .coverd_box {
+        max-width: 319.17px;
+    }
 }
 
 
