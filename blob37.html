@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Realistic Water Wave Blob</title>
+<style>
+body {
+  margin: 0;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+}
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+</style>
+</head>
+<body>
+<canvas id="blobCanvas"></canvas>
+<script>
+const canvas = document.getElementById("blobCanvas");
+const ctx = canvas.getContext("2d");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let time = 0;
+let mouse = { x: -9999, y: -9999, down: false };
+
+document.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+document.addEventListener("mousedown", () => mouse.down = true);
+document.addEventListener("mouseup", () => mouse.down = false);
+
+// --- Blob setup ---
+const blobs = [
+  { cx: canvas.width/2 - 300, cy: canvas.height/2, r: 160, color:"#ff3300" },
+  { cx: canvas.width/2, cy: canvas.height/2, r: 160, color:"#00bfbf" },
+  { cx: canvas.width/2 + 300, cy: canvas.height/2 + 50, r: 160, color:"#ff9900" }
+];
+
+// --- Wave memory ---
+const waveCount = 180;
+let waveOffsets = Array.from({length: blobs.length}, ()=>Array(waveCount).fill(0));
+let waveVelocities = Array.from({length: blobs.length}, ()=>Array(waveCount).fill(0));
+
+function animate() {
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  time++;
+
+  blobs.forEach((b, bi)=>{
+    const freq = 3;
+    const amp = 20;
+    const points = waveCount;
+
+    // --- Detect mouse near blob and inject ripple ---
+    const dx = mouse.x - b.cx;
+    const dy = mouse.y - b.cy;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist < b.r + 50) {
+      const angle = Math.atan2(dy, dx);
+      const idx = Math.floor(((angle + Math.PI) / (Math.PI * 2)) * points);
+      if(mouse.down) waveVelocities[bi][idx] = -5; // stronger ripple on click
+      else waveVelocities[bi][idx] = -2;
+    }
+
+    // --- Simulate wave motion ---
+    const k = 0.05, damping = 0.98;
+    for(let i=0;i<points;i++){
+      const left = waveOffsets[bi][(i-1+points)%points];
+      const right = waveOffsets[bi][(i+1)%points];
+      const avg = (left+right)/2;
+      const force = avg - waveOffsets[bi][i];
+      waveVelocities[bi][i] += force * k;
+      waveVelocities[bi][i] *= damping;
+      waveOffsets[bi][i] += waveVelocities[bi][i];
+    }
+
+    // --- Draw blob with wave ---
+    ctx.beginPath();
+    for(let i=0;i<=points;i++){
+      const angle = (i/points)*Math.PI*2;
+      const wave = waveOffsets[bi][i%points];
+      const r = b.r + wave + Math.sin(angle*freq + time*0.03)*amp*0.3;
+      const x = b.cx + Math.cos(angle)*r;
+      const y = b.cy + Math.sin(angle)*r;
+      if(i===0) ctx.moveTo(x,y);
+      else ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+
+    const grad = ctx.createLinearGradient(b.cx-b.r,b.cy-b.r,b.cx+b.r,b.cy+b.r);
+    grad.addColorStop(0,b.color);
+    grad.addColorStop(1,b.color);
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+  });
+
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>

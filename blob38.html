@@ -1,0 +1,262 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Smooth Blob Hover + Water Wave Effect</title>
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+<style>
+@font-face {
+  font-family: 'Altform-Bold';
+  src: url('https://www.brettenhamhouse.com/assets/fonts/Altform-Bold.woff2') format('woff2'),
+       url('https://www.brettenhamhouse.com/assets/fonts/Altform-Bold.woff') format('woff');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+body {
+  margin: 0;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden;
+  flex-direction: column;
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 1;
+}
+
+h1 {
+  position: relative;
+  z-index: 3;
+  font-size: 67px;
+  font-weight: 700;
+  text-align: center;
+  margin: 0;
+  color: #000;
+  font-family: 'Altform-Bold', sans-serif;
+}
+
+.blob-button {
+  position: absolute;
+  padding: 10px 20px;
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.3s ease, background-color 0.3s ease;
+  z-index: 4;
+  font-size: 14px;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.blob-button.show { opacity: 1; pointer-events: auto; }
+.blob-button .icon { margin-left: 8px; }
+
+video { display: none; }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <canvas id="blobCanvas"></canvas>
+  <h1>THREE VIBRANT<br>DISTRICTS</h1>
+  <button id="blobBtn" class="blob-button">EXPLORE <span class="icon"><i class="fas fa-arrow-right"></i></span></button>
+  <video id="blobVideo" src="street.mp4" muted loop></video>
+</div>
+
+<script>
+const canvas = document.getElementById("blobCanvas");
+const ctx = canvas.getContext("2d");
+const btn = document.getElementById("blobBtn");
+const video = document.getElementById("blobVideo");
+
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener("resize", resizeCanvas);
+
+let time = 0;
+let mouse = { x: canvas.width / 2, y: canvas.height / 2 };
+let blobs = [];
+let prevBlobs = [];
+
+document.addEventListener("mousemove", e => {
+  mouse.x = e.clientX;
+  mouse.y = e.clientY;
+});
+
+function lerp(a,b,t){ return a+(b-a)*t; }
+
+// ===== generate blob path with wave & mouse effect =====
+function generateBlobPath(cx, cy, baseRadius, freq, amp, speed, yScale=1, reactStrength=100) {
+  const points = 200;
+  let pathPoints = [];
+  for (let i = 0; i <= points; i++) {
+    let angle = (i / points) * Math.PI * 2;
+    let offset = Math.sin(angle * freq + time * 0.02 * speed) * amp;
+    let r = baseRadius + offset;
+
+    // Mouse water push effect
+    const px = Math.cos(angle) * r + cx;
+    const py = Math.sin(angle) * r * yScale + cy;
+    const dx = px - mouse.x;
+    const dy = py - mouse.y;
+    const dist = Math.sqrt(dx*dx + dy*dy);
+    if(dist < reactStrength){
+      const push = (reactStrength - dist) * 0.4; // intensity
+      r += push;
+    }
+
+    const x = Math.cos(angle) * r + cx;
+    const y = Math.sin(angle) * r * yScale + cy;
+    pathPoints.push({x,y});
+  }
+  return pathPoints;
+}
+
+function smoothPath(prev, current, t=0.1){
+  if(!prev || prev.length !== current.length) return current;
+  return current.map((p,i)=>({x:lerp(prev[i].x,p.x,t), y:lerp(prev[i].y,p.y,t)}));
+}
+
+function drawCurvedText(pathPoints, text, position="top", offset=20, offsetX=0, letterSpacing=2){
+  ctx.save();
+  ctx.fillStyle="#000";
+  ctx.font="18px Altform-Bold";
+  ctx.textAlign="center";
+  ctx.textBaseline="middle";
+  const len = pathPoints.length;
+  let segment=[];
+  if(position==="top") segment=pathPoints.slice(0,len/3);
+  else if(position==="bottom") segment=pathPoints.slice(len/2,len*5/6);
+  else if(position==="top-right") segment=pathPoints.slice(len/6,len/2.5);
+  if(segment.length<2){ctx.restore();return;}
+
+  let pathDistances=[0], totalLength=0;
+  for(let i=1;i<segment.length;i++){
+    const p1=segment[i-1], p2=segment[i];
+    const dist=Math.hypot(p2.x-p1.x,p2.y-p1.y);
+    totalLength+=dist; pathDistances.push(totalLength);
+  }
+
+  const textWidth=ctx.measureText(text).width;
+  const startOffset=(totalLength-textWidth)/2;
+
+  let currentDist=0;
+  for(let i=0;i<text.length;i++){
+    const char=text[i];
+    const charWidth=ctx.measureText(char).width;
+    const targetDist=startOffset+currentDist+charWidth/2+offsetX;
+    let pos=segment[0], angle=0;
+    for(let j=1;j<segment.length;j++){
+      if(pathDistances[j]>=targetDist){
+        const p1=segment[j-1], p2=segment[j];
+        const segDist=pathDistances[j]-pathDistances[j-1];
+        const t=(targetDist-pathDistances[j-1])/segDist;
+        pos={x:lerp(p1.x,p2.x,t), y:lerp(p1.y,p2.y,t)};
+        angle=Math.atan2(p2.y-p1.y,p2.x-p1.x);
+        break;
+      }
+    }
+    ctx.save();
+    ctx.translate(pos.x,pos.y);
+    ctx.rotate(angle);
+    ctx.fillText(char,0,position==="top"?offset:-offset);
+    ctx.restore();
+    currentDist+=charWidth+letterSpacing;
+  }
+  ctx.restore();
+}
+
+// ===== Draw single blob =====
+function drawBlob(cx, cy, baseRadius, freq, amp, speed, color, yScale=1, label, labelPos, textOffsetX=0, letterSpacing=2){
+  let rawPath=generateBlobPath(cx,cy,baseRadius,freq,amp,speed,yScale);
+  let smoothBlob=smoothPath(prevBlobs[label]||null,rawPath,0.2);
+  prevBlobs[label]=smoothBlob;
+
+  ctx.beginPath();
+  ctx.moveTo(smoothBlob[0].x,smoothBlob[0].y);
+  for(let i=1;i<smoothBlob.length;i++) ctx.lineTo(smoothBlob[i].x,smoothBlob[i].y);
+  ctx.closePath();
+
+  const gradient=ctx.createLinearGradient(cx-baseRadius,cy-baseRadius,cx+baseRadius,cy+baseRadius);
+  gradient.addColorStop(0,color);
+  gradient.addColorStop(1,color);
+  ctx.fillStyle=gradient;
+  ctx.fill();
+
+  drawCurvedText(smoothBlob,label,labelPos,20,textOffsetX,letterSpacing);
+  blobs.push({cx,cy,radius:baseRadius+amp+30,path:smoothBlob,color});
+}
+
+// ===== Animate =====
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  blobs=[];
+  let baseRadius=150, spacing=350;
+  if(canvas.width<768) spacing=10;
+
+  drawBlob(canvas.width/2-spacing, canvas.height/2-80, baseRadius,3,20,1.3,"#ff3300",1,"COVENT GARDEN","bottom",0);
+  drawBlob(canvas.width/2, canvas.height/2, baseRadius,3,20,1.2,"#00bfbf",1.3,"VICTORIA EMBANKMENT","bottom",30);
+  drawBlob(canvas.width/2+spacing, canvas.height/2+90, baseRadius,3,20,1.3,"#ff9900",1.1,"SOUTHBANK","bottom",100);
+
+  // Detect hover
+  let hoveredBlob=null;
+  blobs.forEach(b=>{
+    const dx=mouse.x-b.cx;
+    const dy=mouse.y-b.cy;
+    if(Math.hypot(dx,dy)<b.radius) hoveredBlob=b;
+  });
+
+  if(hoveredBlob){
+    btn.classList.add("show");
+    btn.style.left=hoveredBlob.cx-btn.offsetWidth/2+"px";
+    btn.style.top=hoveredBlob.cy-btn.offsetHeight/2+"px";
+    btn.style.backgroundColor=hoveredBlob.color;
+    video.play();
+  } else {
+    btn.classList.remove("show");
+    video.pause();
+  }
+
+  // Video inside blob
+  if(hoveredBlob && video.readyState>=2){
+    ctx.save();
+    ctx.beginPath();
+    ctx.moveTo(hoveredBlob.path[0].x,hoveredBlob.path[0].y);
+    for(let i=1;i<hoveredBlob.path.length;i++) ctx.lineTo(hoveredBlob.path[i].x,hoveredBlob.path[i].y);
+    ctx.closePath();
+    ctx.clip();
+
+    const aspect=video.videoWidth/video.videoHeight;
+    let w=hoveredBlob.radius*2;
+    let h=hoveredBlob.radius*2;
+    if(aspect>=1) w=w*aspect; else h=h/aspect;
+    ctx.drawImage(video,hoveredBlob.cx-w/2,hoveredBlob.cy-h/2,w,h);
+    ctx.restore();
+  }
+
+  time++;
+  requestAnimationFrame(animate);
+}
+animate();
+</script>
+</body>
+</html>
