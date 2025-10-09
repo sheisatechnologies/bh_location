@@ -50,6 +50,9 @@
     <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
+       <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
 
 
 </head>
@@ -129,7 +132,7 @@
         <div class="container">
 
             <div class="first_shape_wrapper first_shape_wrapper_vict position-relative">
-                <div class="coverd_box coverd_box_vict spots_box">
+                <div class="coverd_box coverd_box_vict gsap-card" data-speed="7.7">
                     <div class="heading_box">
                         <h2>TOP F&B SPOTS</h2>
                     </div>
@@ -159,7 +162,7 @@
                     </div>
                     <p class="bottom-text pt-2">*Walking time from Brettenham House</p>
                 </div>
-                <div class="img_box img_box_vict">
+                <div class="img_box img_box_vict" data-speed="1.2">
                     <img src="img/vict_1.png" alt="#" class="ms-5">
                 </div>
 
@@ -169,7 +172,7 @@
 
 
 
-                <div class="spots_box spots_box_vict  station-card">
+                <div class="spots_box spots_box_vict  station-card gsap-card" data-speed="5.0">
                     <h3>YOUR NEAREST tube STATIONS</h3>
                     <div class="station">
                         <!-- Left side: train icon + station details -->
@@ -215,10 +218,10 @@
         </div>
     </section>
 
-    <section class="section_wrapper top_space">
+    <section class="section_wrapper top_space gsap-card" data-anim="bottom">
         <div class="container">
             <div class="second_shape_wrapper position-relative">
-                <div class="buzz-box fact-box fact-box_vict">
+                <div class="buzz-box fact-box fact-box_vict" data-speed="2.7">
                     <div class="icon">
                         <img src="img/light-icon.svg" alt="#">
                     </div>
@@ -230,7 +233,7 @@
                 <div class="second_img_box second_img_box_vict">
                     <img src="img/victoria_2nd.png" alt="#">
                 </div>
-                <div class="buzz-box  buzz_box_yellow">
+                <div class="buzz-box  buzz_box_yellow" data-speed="3.7">
                     <div class="buzz-title">
                         <h2>Spaces to Breathe</h2>
                     </div>
@@ -252,8 +255,8 @@
                     </p>
                 </div> -->
 
-                <div class="bootom_box ">
-                    <div class="fact_box_2 fact_box_2_vict buzz-box buzz-box_vict">
+                <div class="bootom_box gsap-card" data-anim="bottom">
+                    <div class="fact_box_2 fact_box_2_vict buzz-box buzz-box_vict" data-speed="6.1">
                         <div class="buzz-title">
                             <h2>NEED A LUNCHTIME WALK?</h2>
                         </div>
@@ -275,15 +278,15 @@
     </section>
 
 
-    <section class="section_wrapper top_space_last_section">
+    <section class="section_wrapper top_space_last_section gsap-card">
     <div class="container">
         <div class="third_shape_wrapper position-relative d-flex align-items-center">
 
-            <div class="fact-box fact-box_bottom">
+            <div class="fact-box fact-box_bottom gsap-card"  data-anim="bottom" data-speed="6.7">
                 <div class="box_heading">
                     <h2>SO MUCH TO SEE</h2>
                 </div>
-                <div class="number_box number_box_bottom">
+                <div class="number_box number_box_bottom" >
                     <h4>20</h4><span>MOUNTAINS & STATUES</span>
                 </div>
             </div>
@@ -296,7 +299,7 @@
                 </div>
 
                 <!-- New Box -->
-                <div class="extra_box fact-box fact-box_blue">
+                <div class="extra_box fact-box fact-box_blue" data-speed="3.0">
                     <div class="icon">
                        <img src="img/light-icon.svg" alt="#">
                     </div>
@@ -307,7 +310,7 @@
             </div>
 
             <!-- Existing covered box -->
-            <div class="coverd_box fact-box fact-box_yellow ">
+            <div class="coverd_box fact-box fact-box_yellow gsap-card"  data-speed="4.1">
                 <div class="icon">
                      <img src="img/light-icon.svg" alt="#">
                 </div>
@@ -456,7 +459,30 @@
     <script src="js/swiper-bundle.min.js"></script>
     <script src="js/theia-sticky-sidebar.js"></script>
     <script src="js/script.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/ScrollTrigger.min.js"></script>
 
 </body>
+
+ <!-- GSAP Smooth Parallax -->
+   <script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Smooth parallax for each element
+  document.querySelectorAll("[data-speed]").forEach(el => {
+    const speed = parseFloat(el.dataset.speed);
+
+    gsap.to(el, {
+      yPercent: -20 * speed, // move different distance per speed
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom",  // element enters viewport
+        end: "bottom top",    // element leaves viewport
+        scrub: 0.8            // smooth following scroll
+      }
+    });
+  });
+</script>
 
 </html>

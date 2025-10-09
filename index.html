@@ -49,14 +49,13 @@
     <link href="assets/images/apple-touch-icon.png" rel="apple-touch-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
-    
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
 </head>
 
 <body>
-   
 
-<nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light fixed-top bg-light" data-speed="0.5">
         <div class="container">
             <a class="navbar-brand" href="index.html">
                 <img src="assets/images/brettenham-house-symbol-black.svg" alt="Normal Logo" class="fixed-top-image normal-image" id="normalLogo">
@@ -89,127 +88,105 @@
         </div>
     </nav>
 
+    <!-- ✅ Secondary Small Menu (Under Main Navbar) -->
+    <div class="sub-navbar bg-white " data-speed="0.3">
+        <div class="container">
+            <ul class="nav small-nav justify-content-end  mend-9">
+                <li class="nav-item"><a href="#victoria" class="nav-link">Victoria Embankment</a></li>
+                <li class="nav-item"><a href="#southbank" class="nav-link">Southbank</a></li>
+                <li class="nav-item"><a href="#covent" class="nav-link active">Covent Garden</a></li>
+                <li class="nav-item"><a href="#favourites" class="nav-link">Our Favourites</a></li>
+            </ul>
+        </div>
+    </div>
 
-
-
-
-<!-- ✅ Secondary Small Menu (Under Main Navbar) -->
-<div class="sub-navbar bg-white ">
-  <div class="container">
-    <ul class="nav small-nav justify-content-end  mend-9">
-      <li class="nav-item"><a href="#victoria" class="nav-link">Victoria Embankment</a></li>
-      <li class="nav-item"><a href="#southbank" class="nav-link">Southbank</a></li>
-      <li class="nav-item"><a href="#covent" class="nav-link active">Covent Garden</a></li>
-      <li class="nav-item"><a href="#favourites" class="nav-link">Our Favourites</a></li>
-    </ul>
-  </div>
-</div>
-
-
-
-
-
-
-
-    <div class="container">
+    <div class="container" data-speed="0.6">
         <div class="row">
             <div class="col-lg-10 offset-lg-1 ptd4 ptm2 pbd4 pbm6 tcd tcm">
                 <p class="text-with-icon">
                 COVENT GARDEN - 4 MINS 
                 <img src="img/icon/walk.svg" alt="Icon" class="icon-img">
             </p>
-            </p>
                 <h3 class="main-text">YOUR ULTIMATE DESTINATION <br> FOR ENTERTAINMENT</h3>
-                <!-- <h3 class="main-text">YOUR ULTIMATE<br> DESTINATION <br> FOR ENTERTAINMENT</h3> -->
                 <a href="floorplans.html" class="btn btn-primary">EXPLORE OUR FAVOURITES</a>
             </div>
         </div>
     </div>
 
-
-<div class="container">
-    <section class="section_wrapper">
-        <div class="container">
-           
-            <div class="first_shape_wrapper position-relative">
-                <div class="coverd_box">
-                    <div class="box_heading">
-                        <h2>FANCY A BROWSE?</h2>
-                    </div>
-                    <div class="number_box">
-                        <h4>220</h4><span>SHOPS</span>
-                    </div>
-                </div>
-                <div class="img_box">
-                    <img src="img/Vector 3.png" alt="#"> 
-                </div>
-
-               <div class="station-card station-card_first">
-    <h3>YOUR NEAREST tube STATIONS</h3>
-    <div class="station">
-        <!-- Left side: train icon + station details -->
-        <div class="station-left">
-            <span class="icon"><img src="img/train.svg" alt="#"></span>
-            <div class="right_details">
-                <span class="name">COVENT GARDEN</span>
-                <span class="line-icon blue-line"><img src="img/blue-icon.svg" alt="#"></span>
-            </div>
-        </div>
-
-        <!-- Right side: 4 min with logo at the far right -->
-        <span class="station-time">
-            4 MIN
-            <img src="img/icon/walk.svg" alt="Logo" class="time-logo">
-        </span>
-    </div>
-    <p class="bottom-text bottom-text-station pt-2">*Walking time from Brettenham House</p>
-</div>
-
-
-
-                <div class="spots_box mb-5">
-                    <div class="heading_box">
-                        <h2>TOP F&B SPOTS</h2>
-                    </div>
-
-                    <div class="list_block">
-                        <div class="top-spots">
-                            <div class="spot">
-                                <span class="number">PLUM WINE BAR</span>
-                                <span class="time">3 MINS <img src="img/icon.svg" alt="#"></span>
-                            </div>
-                            <div class="spot">
-                                <span class="number">HENRI</span>
-                                <span class="time">6 MINS <img src="img/icon.svg" alt="#"></span>
-                            </div>
-                            <div class="spot">
-                                <span class="number">CLOSE MAGGIORE</span>
-                                <span class="time">8 MINS <img src="img/icon.svg" alt="#"></span>
-                            </div>
-                            <div class="spot">
-                                <span class="number">BANCONE</span>
-                                <span class="time">8 MINS <img src="img/icon.svg" alt="#"></span>
-                            </div>
-                            <div class="spot">
-                                <span class="number">SEVEN DIALS MARKET</span>
-                                <span class="time">10 MINS <img src="img/icon.svg" alt="#"></span>
-                            </div>
+    <div class="container"></div>
+        <section class="section_wrapper">
+            <div class="container">
+                <div class="first_shape_wrapper position-relative">
+                    <div class="coverd_box" data-speed="3.7">
+                        <div class="box_heading">
+                            <h2>FANCY A BROWSE?</h2>
+                        </div>
+                        <div class="number_box">
+                            <h4>220</h4><span>SHOPS</span>
                         </div>
                     </div>
-                    <p class="bottom-text pt-2">*Walking time from Brettenham House</p>
+                    <div class="img_box" data-speed="1.2">
+                        <img src="img/Vector 3.png" alt="#"> 
+                    </div>
+
+                    <div class="station-card station-card_first gsap-card" data-speed="5.0">
+                        <h3>YOUR NEAREST tube STATIONS</h3>
+                        <div class="station">
+                            <div class="station-left">
+                                <span class="icon"><img src="img/train.svg" alt="#"></span>
+                                <div class="right_details">
+                                    <span class="name">COVENT GARDEN</span>
+                                    <span class="line-icon blue-line"><img src="img/blue-icon.svg" alt="#"></span>
+                                </div>
+                            </div>
+                            <span class="station-time">
+                                4 MIN
+                                <img src="img/icon/walk.svg" alt="Logo" class="time-logo">
+                            </span>
+                        </div>
+                        <p class="bottom-text bottom-text-station pt-2">*Walking time from Brettenham House</p>
+                    </div>
+
+                    <div class="spots_box mb-5 gsap-card" data-speed="7.7" >
+                        <div class="heading_box">
+                            <h2>TOP F&B SPOTS</h2>
+                        </div>
+
+                        <div class="list_block">
+                            <div class="top-spots">
+                                <div class="spot">
+                                    <span class="number">PLUM WINE BAR</span>
+                                    <span class="time">3 MINS <img src="img/icon.svg" alt="#"></span>
+                                </div>
+                                <div class="spot">
+                                    <span class="number">HENRI</span>
+                                    <span class="time">6 MINS <img src="img/icon.svg" alt="#"></span>
+                                </div>
+                                <div class="spot">
+                                    <span class="number">CLOSE MAGGIORE</span>
+                                    <span class="time">8 MINS <img src="img/icon.svg" alt="#"></span>
+                                </div>
+                                <div class="spot">
+                                    <span class="number">BANCONE</span>
+                                    <span class="time">8 MINS <img src="img/icon.svg" alt="#"></span>
+                                </div>
+                                <div class="spot">
+                                    <span class="number">SEVEN DIALS MARKET</span>
+                                    <span class="time">10 MINS <img src="img/icon.svg" alt="#"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="bottom-text pt-2">*Walking time from Brettenham House</p>
+                    </div>
+
                 </div>
-
-
-                
             </div>
-               
-        </div>
-    </section>
+        </section>
 
-        <section class="section_wrapper top_space">
+        <section class="section_wrapper gsap-card" data-anim="bottom">
             <div class="container">
                 <div class="second_shape_wrapper position-relative">
-                    <div class="buzz-box">
+                    <div class="buzz-box gsap-card"data-speed="2.7">
                         <div class="buzz-title"><h2>ALWAYS A BUZZ</h2></div>
                         <div class="buzz-number">
                             <span class="big-number">44</span>
@@ -221,92 +198,82 @@
                         </div>
                     </div>
 
-                        <div class="second_img_box second_img_box_first">
-                            <img src="img/shape-img-2.png" alt="#">
-                        </div>
-                        <div class="buzz-box buzz_box_orange mt-5">
-                            <div class="buzz-title">
-                                <h2>WHERE DRAMA LIVES</h2>
-                            </div>
-                            <div class="buzz-number">
-                                <span class="big-number">13</span>
-                                <div class="buzz-text">
-                                    THEATRES
-                                </div>
-                            </div>
-                        </div>
+                    <div class="second_img_box second_img_box_first">
+                        <img src="img/shape-img-2.png" alt="#">
+                    </div>
 
-                        <div class="fact-box mt-5 mb-5">
+                    <div class="buzz-box buzz_box_orange mt-5" data-speed="3.7">
+                        <div class="buzz-title">
+                            <h2>WHERE DRAMA LIVES</h2>
+                        </div>
+                        <div class="buzz-number">
+                            <span class="big-number">13</span>
+                            <div class="buzz-text">
+                                THEATRES
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="fact-box mt-5 mb-5" data-speed="7.5">
+                        <div class="icon">
+                            <img src="img/light-icon.svg" alt="#">
+                        </div>
+                        <p class="fact-text">
+                            The Royal Opera House is one of only a few venues globally to house both an Opera and a ballet company.
+                        </p>
+                    </div>
+
+                    <div class="bootom_box gsap-card" data-anim="bottom">
+                        <div class="fact_box_2" data-speed="6.1">
                             <div class="icon">
                                 <img src="img/light-icon.svg" alt="#">
                             </div>
                             <p class="fact-text">
-                                The Royal Opera House is one of only a few venues globally to house both an Opera and a ballet company.
+                                To perform in the main Piazza, buskers must audition in front of a panel, just like a talent show.
                             </p>
                         </div>
-
-                        <div class="bootom_box">
-                            <div class="fact_box_2">
-                                <div class="icon">
-                                    <img src="img/light-icon.svg" alt="#">
-                                </div>
-                                <p class="fact-text">
-                                    To perform in the main Piazza, buskers must audition in front of a panel, just like a talent show.
-                                </p>
-                            </div>
-                            <div class="img_box_small">
-                                <img src="img/shape-img-3.png" alt="">
-                            </div>
+                        <div class="img_box_small">
+                            <img src="img/shape-img-3.png" alt="">
                         </div>
-
-
+                    </div>
                 </div>
             </div>
         </section>
 
-
-        <section class="section_wrapper top_space_last_section">
+        <section class="section_wrapper top_space_last_section gsap-card">
             <div class="container">
                 <div class="third_shape_wrapper position-relative">
-                       <div class="coverd_box">
-                    <div class="box_heading">
-                        <h2>FOR EVERY OCCASION</h2>
+                    <div class="coverd_box gsap-card" data-speed="4.1">
+                        <div class="box_heading">
+                            <h2>FOR EVERY OCCASION</h2>
+                        </div>
+                        <div class="number_box">
+                            <h4>100</h4><span>EATERIES</span>
+                        </div>
                     </div>
-                    <div class="number_box">
-                        <h4>100</h4><span>EATERIES</span>
-                    </div>
-                </div>
-                    <div class="img_box_03 img_box_03_first">
+                    <div class="img_box_03 img_box_03_first" >
                         <img src="img/shape-img-4.png" alt="#">
                     </div>
 
-                    <div class="fact-box">
-                            <div class="icon">
-                                <img src="img/light-icon.svg" alt="#">
-                            </div>
-                            <p class="fact-text">
-                                The Theatre Royal Drury Lane is one of the most haunted in the UK, with multiple ghost sightings.
-                            </p>
+                    <div class="fact-box gsap-card" data-anim="bottom" data-speed="6.7">
+                        <div class="icon">
+                            <img src="img/light-icon.svg" alt="#">
                         </div>
+                        <p class="fact-text">
+                            The Theatre Royal Drury Lane is one of the most haunted in the UK, with multiple ghost sightings.
+                        </p>
+                    </div>
                 </div>
 
-                <div class="button_block">
-                    <!-- <a href="javascript:void(0)" class="theem_btn">
-                        explore our top picks
-                    </a> -->
+                <div class="button_block" data-speed="1.1">
                     <a href="#" class="btn btn-primary">EXPLORE OUR FAVOURITES</a>
-                    
                 </div>
             </div>
         </section>
+    
 
-</div>
-
-         <footer>
+    <footer data-speed="0.5">
         <div class="container py-5">
-            <!-- Development Attribution -->
-           
-
             <div class="row ptd4 ptm3 pbm4">
                 <div class="col-xl-3 col-lg-12 pbd3 ptm2 pbm2">
                     <p class="text-white">A development by</p>
@@ -315,19 +282,15 @@
                     </a>
                 </div>
             </div>
-    
-            <!-- Contact Information for Savills -->
+
             <div class="row py-4">
                 <div class="col-12 d-flex flex-column flex-md-row align-items-start">
-                    <!-- Savills Logo -->
                     <div class="me-4 pb-5">
                         <a href="https://www.savills.co.uk/" target="_blank">
                             <img src="assets/images/ftr-logo-savills.svg" alt="Savills" class="img-fluid" width="70">
                         </a>
                     </div>
-                    <!-- Contact Information -->
                     <div class="row w-100">
-                        <!-- Contact 1 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
                             <p>
                                 Peter Thursfield<br>
@@ -335,7 +298,6 @@
                                 <a href="tel:07870555732">07870 555732</a>
                             </p>
                         </div>
-                        <!-- Contact 2 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
                             <p>
                                 Hunter Booth<br>
@@ -343,7 +305,6 @@
                                 <a href="tel:07710965693">07710 965693</a>
                             </p>
                         </div>
-                        <!-- Contact 3 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
                             <p>
                                 Freddie Corlett<br>
@@ -354,19 +315,15 @@
                     </div>
                 </div>
             </div>
-    
-            <!-- Contact Information for RX London -->
+
             <div class="row py-4">
                 <div class="col-12 d-flex flex-column flex-md-row align-items-start">
-                    <!-- RX Logo -->
                     <div class="me-4 pb-5">
                         <a href="https://rx.london/" target="_blank">
                             <img src="assets/images/ftr-logo-rx.svg" alt="RX London" class="img-fluid" width="70">
                         </a>
                     </div>
-                    <!-- Contact Information -->
                     <div class="row w-100">
-                        <!-- Contact 4 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
                             <p>
                                 Dan Burn<br>
@@ -374,18 +331,13 @@
                                 <a href="tel:07515607011">07515 607011</a>
                             </p>
                         </div>
-                        <!-- Contact 5 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
-
                             <p>
                                 Ed Betts<br>
                                 <a href="mailto:ed.betts@rx.london">ed.betts@rx.london</a><br>
                                 <a href="tel:07771513169">07771 513169</a>
                             </p>
-
-                            
                         </div>
-                        <!-- Contact 6 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
                             <p>
                                 Alfie John<br>
@@ -393,7 +345,6 @@
                                 <a href="tel:07377885814">07377 885814</a>
                             </p>
                         </div>
-                        <!-- Contact 7 -->
                         <div class="col-12 col-sm-6 col-lg-3 contact-info mb-4">
                             <p>
                                 Sophie Bartlett<br>
@@ -404,8 +355,7 @@
                     </div>
                 </div>
             </div>
-    
-            <!-- Address and Links -->
+
             <div class="row pbd2 pbm4 pt-md-5">
                 <div class="col-xl-12">
                     <hr>
@@ -419,21 +369,37 @@
             </div>
         </div>
     </footer>
-        
-        
 
-
+    <!-- Scripts -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
-    <!-- Bootstrap v5.3.0  -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    <!-- Swiper 10.0.3 -->
     <script src="js/jquery.matchHeight-min.js"></script>
     <script src="js/swiper-bundle.min.js"></script>
     <script src="js/theia-sticky-sidebar.js"></script>
     <script src="js/script.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/gsap.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/ScrollTrigger.min.js"></script>
+
+    <!-- GSAP Smooth Parallax -->
+   <script>
+  gsap.registerPlugin(ScrollTrigger);
+
+  // Smooth parallax for each element
+  document.querySelectorAll("[data-speed]").forEach(el => {
+    const speed = parseFloat(el.dataset.speed);
+
+    gsap.to(el, {
+      yPercent: -20 * speed, // move different distance per speed
+      ease: "none",
+      scrollTrigger: {
+        trigger: el,
+        start: "top bottom",  // element enters viewport
+        end: "bottom top",    // element leaves viewport
+        scrub: 0.8            // smooth following scroll
+      }
+    });
+  });
+</script>
 
 </body>
-
 </html>

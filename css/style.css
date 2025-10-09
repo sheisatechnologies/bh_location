@@ -590,6 +590,7 @@ font-weight: normal; /* uses Altform Regular */;
 .bootom_box .img_box_small{
     position: relative;
     margin-top: -250px;
+    margin-right: -59px;
 }
 
 /*  */
@@ -676,7 +677,7 @@ font-weight: normal; /* uses Altform Regular */;
 }
 
 .second_img_box_first{
-  transform: translate(138px, 125px);
+     transform: translate(-14px, 125px);
 }
 .second_img_box img:hover{
    transform: scale(1.1);
@@ -946,6 +947,92 @@ font-weight: normal; /* uses Altform Regular */;
     max-width: 276.17px;
    
 }
+
+ .second_shape_wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 12px;
+  }
+
+  /* Make the bootom_box act as if it's not a wrapper so its children become siblings */
+  .second_shape_wrapper .bootom_box {
+    display: contents !important;
+  }
+
+  /* Explicit order we want */
+  .second_shape_wrapper .second_img_box   { order: 1 !important; }
+  .second_shape_wrapper .buzz-box         { order: 2 !important; }
+  .second_shape_wrapper .fact-box         { order: 3 !important; }
+  .second_shape_wrapper .buzz_box_orange  { order: 4 !important; }
+  .second_shape_wrapper .img_box_small    { order: 5 !important; }
+  .second_shape_wrapper .fact_box_2       { order: 6 !important; }
+
+  /* Make sure each block stacks cleanly */
+  .second_shape_wrapper .second_img_box,
+  .second_shape_wrapper .buzz-box,
+  .second_shape_wrapper .fact-box,
+  .second_shape_wrapper .buzz_box_orange,
+  .second_shape_wrapper .img_box_small,
+  .second_shape_wrapper .fact_box_2 {
+    position: relative !important;
+    width: 100% !important;
+    max-width: none !important;
+    margin: 12px 0 !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+  }
+
+  /* responsive images */
+  .second_shape_wrapper img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+
+   .third_shape_wrapper {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .third_shape_wrapper .fact-box {
+    order: 1;
+  }
+
+  .third_shape_wrapper .img_box_03 {
+    order: 2;
+  }
+
+  .third_shape_wrapper .coverd_box {
+    order: 3;
+  }
+
+  /* Reset absolute/relative positions for stacking */
+  .third_shape_wrapper > * {
+    position: relative !important;
+    top: auto !important;
+    left: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    margin: 10px 0 !important;
+    width: 100% !important;
+  }
+
+  /* Center text & image for clean mobile view */
+  .third_shape_wrapper .coverd_box,
+  .third_shape_wrapper .fact-box,
+  .third_shape_wrapper .img_box_03 {
+    text-align: center;
+  }
+
+  .third_shape_wrapper img {
+    max-width: 100%;
+    height: auto;
+  }
+
 }
 
 /* Tablet */
@@ -959,6 +1046,16 @@ font-weight: normal; /* uses Altform Regular */;
         max-width: 80%; /* scale image down */
         height: auto;
     }
+
+    .bootom_box .img_box_small {
+    position: relative;
+    margin-top: -250px;
+    margin-right: 0px;
+}
+
+
+
+
 }
 
 /* Mobile */
@@ -969,7 +1066,7 @@ font-weight: normal; /* uses Altform Regular */;
     }
 
     .img_box_small img {
-        max-width: 100%; /* fit screen */
+      
         height: auto;
     }
 }
@@ -1530,7 +1627,7 @@ font-weight: normal; /* uses Altform Regular */;
     max-width: 314px;
     border-radius: 10px;
     position: absolute;
-   left: 24%;
+   left: 12%;
     top: 5%;
     z-index: 1;
 }
@@ -1754,15 +1851,63 @@ background-color: #FF9222;
     transform: translate(0px);
    
 }
-}
 
-/* Ensure hidden images become visible */
-.img_box_03_vict img,
-.img_box_small_vict img,
-.img_box_vict img,
-.second_img_box_vict img {
-    display: block !important;
-    visibility: visible !important;
+
+  
+  /* Make parent wrappers flex column for mobile */
+  .second_shape_wrapper,
+  .third_shape_wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Mobile stacking order */
+  .second_shape_wrapper .fact-box_vict { order: 1 !important; }        /* 1. Victoria Embankment Gardens */
+  .second_shape_wrapper .second_img_box_vict { order: 2 !important; }  /* 2. Main Image */
+  .second_shape_wrapper .buzz_box_yellow { order: 3 !important; }      /* 3. Spaces to Breathe */
+  
+  /* Cycle Superhighway in 4th */
+  .third_shape_wrapper .fact-box_blue { order: 4 !important; }         /* 4. Cycle Superhighway */
+  
+  .second_shape_wrapper .img_box_small_vict { order: 5 !important; }   /* 5. Small Image */
+  .second_shape_wrapper .fact_box_2_vict { order: 6 !important; }      /* 6. Need a Lunchtime Walk */
+  
+  .third_shape_wrapper .fact-box_yellow { order: 7 !important; }       /* 7. Victoria Embankment Houses */
+  .third_shape_wrapper .img_box_03_vict { order: 8 !important; }       /* 8. Blob Image */
+  .third_shape_wrapper .fact-box_bottom { order: 9 !important; }       /* 9. So Much to See */
+
+  /* Reset absolute positioning for mobile */
+  .second_shape_wrapper > *,
+  .third_shape_wrapper > * {
+    position: relative !important;
+    transform: none !important;
+    left: 0 !important;
+    top: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto;
+  }
+
+  /* Make images responsive */
+  .second_shape_wrapper img,
+  .third_shape_wrapper img,
+  .second_shape_wrapper .icon img,
+  .third_shape_wrapper .icon img {
+    width: auto !important;
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+  }
+
+  /* Button centering */
+  .button_block_vict {
+    text-align: center !important;
+    margin: 20px auto !important;
+    width: 100%;
+  }
+
 }
 
 
@@ -2057,6 +2202,58 @@ background-color: #FF9222;
 .first_shape_wrapper_vict .coverd_box {
         max-width: 319.17px;
     }
+
+
+     /* Make both wrappers flex-column for mobile */
+  .second_shape_wrapper,
+  .third_shape_wrapper {
+    display: flex !important;
+    flex-direction: column !important;
+    gap: 20px !important;
+  }
+
+  /* Mobile stacking order */
+  .second_shape_wrapper .buzz_box_seagreen.fact-box { order: 1 !important; }     /* 1. National Theatre */
+  .second_shape_wrapper .second_img_box_south { order: 2 !important; }           /* 2. Main Image */
+  .second_shape_wrapper .buzz-box_south.station-card { order: 3 !important; }    /* 3. YOUR NEAREST tube STATIONS */
+  .second_shape_wrapper .fact_box_2_south { order: 4 !important; }               /* 4. A Cultural Feast */
+  .second_shape_wrapper .img_box_small_south { order: 5 !important; }            /* 5. Small Image */
+
+  .third_shape_wrapper .coverd_box.fact-box_south { order: 6 !important; }       /* 6. Did you know? */
+  .third_shape_wrapper .fact-box_bottom_south { order: 7 !important; }           /* 7. Enjoy London’s Finest */
+  .third_shape_wrapper .img_box_03_south { order: 8 !important; }                /* 8. Blob Image */
+  .third_shape_wrapper .extra_box_south { order: 9 !important; }                 /* 9. Skate Park */
+
+  /* Reset absolute positioning for mobile */
+  .second_shape_wrapper > *,
+  .third_shape_wrapper > * {
+    position: relative !important;
+    transform: none !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    max-width: 100% !important;
+    margin: 0 auto !important;
+  }
+
+  /* Make images responsive */
+  .second_shape_wrapper img,
+  .third_shape_wrapper img,
+  .second_shape_wrapper .icon img,
+  .third_shape_wrapper .icon img {
+    width: auto !important;
+    max-width: 100% !important;
+    height: auto;
+    display: block;
+    margin: 0 auto !important;
+  }
+
+  /* Button centering */
+  .button_block {
+    text-align: center !important;
+    margin: 20px auto !important;
+    width: 100%;
+  }
 }
 
 
