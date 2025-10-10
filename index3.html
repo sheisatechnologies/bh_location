@@ -144,7 +144,11 @@
                    
                 </div>
                 <div class="img_box img_box_south"  data-speed="1.2">
-                    <img src="img/southbank_1.png" alt="#" class="ms-5">
+                   <div class="mask-video-wrapper">
+                        <video autoplay loop muted playsinline>
+                            <source src="food.mp4" type="video/mp4">
+                        </video>
+                    </div>
                 </div>
 
                 <!-- <div class="station-card">
@@ -470,23 +474,31 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/gsap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.14.0/ScrollTrigger.min.js"></script>
 
-     <script>
-  gsap.registerPlugin(ScrollTrigger);
+        <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Detect mobile
+    const isMobile = window.innerWidth <= 768;
 
-  // Smooth parallax for each element
-  document.querySelectorAll("[data-speed]").forEach(el => {
-    const speed = parseFloat(el.dataset.speed);
+    if (!isMobile) {
+      gsap.registerPlugin(ScrollTrigger);
 
-    gsap.to(el, {
-      yPercent: -20 * speed, // move different distance per speed
-      ease: "none",
-      scrollTrigger: {
-        trigger: el,
-        start: "top bottom",  // element enters viewport
-        end: "bottom top",    // element leaves viewport
-        scrub: 0.8            // smooth following scroll
-      }
-    });
+      document.querySelectorAll("[data-speed]").forEach(el => {
+        const speed = parseFloat(el.dataset.speed);
+
+        gsap.to(el, {
+          yPercent: -20 * speed,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.8
+          }
+        });
+      });
+    } else {
+      console.log("GSAP disabled on mobile");
+    }
   });
 </script>
 

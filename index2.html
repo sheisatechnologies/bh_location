@@ -163,7 +163,11 @@
                     <p class="bottom-text pt-2">*Walking time from Brettenham House</p>
                 </div>
                 <div class="img_box img_box_vict" data-speed="1.2">
-                    <img src="img/vict_1.png" alt="#" class="ms-5">
+                    <div class="mask-video-wrapper">
+                        <video autoplay loop muted playsinline>
+                            <source src="food.mp4" type="video/mp4">
+                        </video>
+                    </div>
                 </div>
 
                 <!-- <div class="station-card">
@@ -287,7 +291,7 @@
                     <h2>SO MUCH TO SEE</h2>
                 </div>
                 <div class="number_box number_box_bottom" >
-                    <h4>20</h4><span>MOUNTAINS & STATUES</span>
+                    <h4>20</h4><span>MONUMENTS & STATUES</span>
                 </div>
             </div>
 
@@ -465,23 +469,31 @@
 </body>
 
  <!-- GSAP Smooth Parallax -->
-   <script>
-  gsap.registerPlugin(ScrollTrigger);
+     <script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Detect mobile
+    const isMobile = window.innerWidth <= 768;
 
-  // Smooth parallax for each element
-  document.querySelectorAll("[data-speed]").forEach(el => {
-    const speed = parseFloat(el.dataset.speed);
+    if (!isMobile) {
+      gsap.registerPlugin(ScrollTrigger);
 
-    gsap.to(el, {
-      yPercent: -20 * speed, // move different distance per speed
-      ease: "none",
-      scrollTrigger: {
-        trigger: el,
-        start: "top bottom",  // element enters viewport
-        end: "bottom top",    // element leaves viewport
-        scrub: 0.8            // smooth following scroll
-      }
-    });
+      document.querySelectorAll("[data-speed]").forEach(el => {
+        const speed = parseFloat(el.dataset.speed);
+
+        gsap.to(el, {
+          yPercent: -20 * speed,
+          ease: "none",
+          scrollTrigger: {
+            trigger: el,
+            start: "top bottom",
+            end: "bottom top",
+            scrub: 0.8
+          }
+        });
+      });
+    } else {
+      console.log("GSAP disabled on mobile");
+    }
   });
 </script>
 
