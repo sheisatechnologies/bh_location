@@ -766,7 +766,7 @@ font-weight: normal; /* uses Altform Regular */;
     position: relative !important;
     width: 100% !important;
     
-    margin: 20px auto !important;
+    margin: 20px auto ;
     top: auto !important;
     left: auto !important;
     right: auto !important;
@@ -977,7 +977,7 @@ font-weight: normal; /* uses Altform Regular */;
     position: relative !important;
     width: 100% !important;
     max-width: none !important;
-    margin: 12px 0 !important;
+    margin: 12px 0 ;
     top: auto !important;
     left: auto !important;
     right: auto !important;
