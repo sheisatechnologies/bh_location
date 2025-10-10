@@ -2270,7 +2270,7 @@ background-color: #FF9222;
   max-width: 627.26px;      /* adjust to match your design */
   height: 400px;
   margin: 0 auto;
-  overflow: hidden;
+  /* overflow: hidden; */
 }
 
 .mask-video-wrapper video {
