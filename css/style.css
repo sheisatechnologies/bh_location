@@ -60,6 +60,12 @@ body {
     padding: 0;
     font-family: 'Altform TRIAL';
     color: #000;
+    overflow-x: hidden !important ;
+}
+/* Prevent body scroll */
+html, body {
+  overflow-x: hidden !important;
+  width: 100%;
 }
 
 ::selection {
@@ -1147,10 +1153,45 @@ padding: 7.1px !important;
 
 
 
-/* 13–15 inch laptops */
-@media (min-width: 992px) and (max-width: 1199px) {
-   
+/* ======== FIX: Prevent Horizontal Scroll Without Affecting Layout ======== */
+
+
+
+/* Contain internal overflows */
+.section_wrapper,
+.container {
+  max-width: 100vw;
+  overflow-x: clip;
 }
+
+/* This ensures large transforms or positioned elements don't extend outside */
+[class*="box"], [class*="wrapper"] {
+  max-width: 100%;
+}
+
+/* Fix known offenders on small screens */
+@media (max-width: 575px) {
+  /* Only reset transforms that push too far offscreen */
+  /* .bootom_box .img_box_small {
+    transform: translateX(-50%) !important;
+    left: 50% !important;
+    margin-right: 0 !important;
+  } */
+
+  /* Keep others as they are */
+  .spots_box,
+  .buzz_box,
+  .fact-box {
+    overflow: hidden;
+  }
+
+  /* Contain padding for smaller viewports */
+  .container, .section_wrapper {
+    padding-left: 10px;
+    padding-right: 10px;
+  }
+}
+
 
 
 
