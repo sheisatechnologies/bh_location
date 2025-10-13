@@ -792,12 +792,14 @@ font-weight: normal; /* uses Altform Regular */;
   /* Resize big numbers and headings */
   .number_box h4,
   .buzz-box .big-number {
-    font-size: 80px;
+   font-size: 87.53px;
     line-height: 70px;
   }
 
       .heading_box h2, .box_heading h2, .buzz-title h2 {
-        font-size: 18px;
+        font-size: 20.67px;
+        line-height: 120%;
+
        
     }
      .first_shape_wrapper .coverd_box {
@@ -817,7 +819,7 @@ font-weight: normal; /* uses Altform Regular */;
 }
 
 .number_box span {
-    font-size: 16.46px;
+    font-size: 18.46px;
    
 }
 }
@@ -855,8 +857,9 @@ font-weight: normal; /* uses Altform Regular */;
   }
 
   .station-card h3 {
-   font-size: 20.67px;
-    margin-bottom: 20px;
+  font-size: 20.67px;
+        margin-bottom: 20px;
+        line-height: 120%;
   }
   .station-left .icon{
     max-width: 41.96px;
@@ -867,8 +870,29 @@ font-weight: normal; /* uses Altform Regular */;
 }
 
   .station .name {
-    font-size: 14px;
+    font-size: 14.93px;
   }
+
+  .station-time .time-logo {
+    width: 10.25px;
+    height: 16.81px;
+}
+
+.list-icon{
+   width: 7.03px;
+    height: 11.5px;
+}
+
+/* .line-icon{
+   width: 20.38px;
+    height: 16.35px;
+} */
+
+.buzz-box .buzz-number {
+    gap: 16px;
+    margin-top: 27px;
+}
+
   .buzz-box .buzz-title h2 {
   
     font-size: 20.67px;
@@ -876,12 +900,13 @@ font-weight: normal; /* uses Altform Regular */;
 }
 
   .spot .number {
-    font-size: 16px;
-    font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
+   font-size: 18.46px;
+        font-family: 'Altform-Bold', Helvetica, Arial, sans-serif;
+        line-height: 110%;
   }
 
   .spot .time {
-    font-size: 13px;
+    font-size: 10.29px;
   }
 
   .buzz-box .big-number {
@@ -901,8 +926,13 @@ font-weight: normal; /* uses Altform Regular */;
   .fact-box .fact-text,
   .fact_box_2 .fact-text {
     font-size: 16px;
-    margin-top: 10px;
+            margin-top: 30px;
   }
+
+  .third_shape_wrapper .fact-box .fact-text {
+    margin-top: 30px;
+  
+}
 
   /* Button full width */
   .button_block {
@@ -999,7 +1029,7 @@ font-weight: normal; /* uses Altform Regular */;
     max-width: 100%;
     height: auto;
     display: block;
-    margin: 0 auto;
+    /* margin: 0 auto; */
   }
 
 
@@ -1036,13 +1066,29 @@ font-weight: normal; /* uses Altform Regular */;
   .third_shape_wrapper .coverd_box,
   .third_shape_wrapper .fact-box,
   .third_shape_wrapper .img_box_03 {
-    text-align: center;
+    text-align: left;
   }
 
   .third_shape_wrapper img {
     max-width: 100%;
     height: auto;
   }
+
+
+  .first_shape_wrapper .coverd_box {
+            padding: 13px;
+}
+
+.list_block {
+    margin-top: 30px;
+}
+
+.heading_box h2 {
+    font-size: 29.43px !important;
+}
+.line-icon {
+
+}
 
 }
 
@@ -1901,7 +1947,7 @@ background-color: #FF9222;
   }
 
   /* Make images responsive */
-  .second_shape_wrapper img,
+  /* .second_shape_wrapper img,
   .third_shape_wrapper img,
   .second_shape_wrapper .icon img,
   .third_shape_wrapper .icon img {
@@ -1910,7 +1956,7 @@ background-color: #FF9222;
     height: auto;
     display: block;
     margin: 0 auto;
-  }
+  } */
 
   /* Button centering */
   .button_block_vict {
@@ -1918,6 +1964,11 @@ background-color: #FF9222;
     margin: 20px auto !important;
     width: 100%;
   }
+
+  .first_shape_wrapper_vict .coverd_box_vict {
+   
+    line-height: 197%;
+}
 
 }
 
@@ -2248,7 +2299,7 @@ background-color: #FF9222;
   }
 
   /* Make images responsive */
-  .second_shape_wrapper img,
+  /* .second_shape_wrapper img,
   .third_shape_wrapper img,
   .second_shape_wrapper .icon img,
   .third_shape_wrapper .icon img {
@@ -2257,7 +2308,7 @@ background-color: #FF9222;
     height: auto;
     display: block;
     margin: 0 auto !important;
-  }
+  } */
 
   /* Button centering */
   .button_block {
@@ -2265,6 +2316,34 @@ background-color: #FF9222;
     margin: 51px auto !important;
     width: 100%;
   }
+
+
+  .bottom-text-station{
+    line-height: 0% !important;
+  }
+
+  .fact_box_2_south {
+    padding: 20px 12px;
+}
+
+.third_shape_wrapper .fact-box_bottom_south {
+   
+    padding: 10px;
+   
+}
+
+    .number_box_south span {
+        font-size: 14.46px;
+    }
+
+    .buzz-box_south .buzz-title h2 {
+        font-size: 18.67px;
+    }
+
+        .buzz-box_south .buzz-text {
+        font-size: 14.46px;
+        line-height: 20px;
+    }
 }
 
 
@@ -2290,12 +2369,12 @@ background-color: #FF9222;
   object-fit: cover;
 
   /* Mask properties */
-  -webkit-mask-image: url('../img/mask-2.svg');
+  -webkit-mask-image: url('../img/mask-1.svg') !important;
   -webkit-mask-size: contain;
   -webkit-mask-repeat: no-repeat;
   -webkit-mask-position: center;
 
-  mask-image: url('../img/mask-2.svg');
+  mask-image: url('../img/mask-1.svg') !important;
   mask-size: contain;
   mask-repeat: no-repeat;
   mask-position: center;
@@ -2313,6 +2392,10 @@ background-color: #FF9222;
 
 .mask-video-wrapper_2nd video{
    mask-position: left;
+   -webkit-mask-image: url('../img/mask-2.svg') !important ;
+
+  mask-image: url('../img/mask-2.svg') !important;
+ 
 }
 
 
