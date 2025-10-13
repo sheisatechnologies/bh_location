@@ -1718,6 +1718,23 @@ padding: 7.1px !important;
     z-index: 1;
 }
 
+
+/* Mobile version এ hide হবে */
+@media (min-width: 2000px) {
+
+.first_shape_wrapper_vict .coverd_box_vict {
+      background-color: #0048C6;
+    padding: 20px;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 537px !important;
+    position: absolute;
+   top: 40%;
+    left: 2%;
+    z-index: 1;
+}
+}
+
 .img_box_vict{
  transform: translateX(554px);
   width: 100%;
