@@ -63,10 +63,7 @@ body {
     overflow-x: hidden !important ;
 }
 /* Prevent body scroll */
-html, body {
-  overflow-x: hidden !important;
-  width: 100%;
-}
+
 
 ::selection {
     background-color: #2196f3;
@@ -1157,17 +1154,7 @@ padding: 7.1px !important;
 
 
 
-/* Contain internal overflows */
-.section_wrapper,
-.container {
-  max-width: 100vw;
-  overflow-x: clip;
-}
 
-/* This ensures large transforms or positioned elements don't extend outside */
-[class*="box"], [class*="wrapper"] {
-  max-width: 100%;
-}
 
 /* Fix known offenders on small screens */
 @media (max-width: 575px) {
@@ -1190,6 +1177,23 @@ padding: 7.1px !important;
     padding-left: 10px;
     padding-right: 10px;
   }
+
+  html, body {
+  overflow-x: hidden !important;
+  width: 100%;
+}
+
+/* Contain internal overflows */
+.section_wrapper,
+.container {
+  max-width: 100vw;
+  overflow-x: clip;
+}
+
+/* This ensures large transforms or positioned elements don't extend outside */
+[class*="box"], [class*="wrapper"] {
+  max-width: 100%;
+}
 }
 
 
