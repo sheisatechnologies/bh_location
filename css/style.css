@@ -808,6 +808,8 @@ font-weight: normal; /* uses Altform Regular */;
    
 }
 
+
+
     
 
   .img_box_03_first {
@@ -964,6 +966,7 @@ font-weight: normal; /* uses Altform Regular */;
     /* overflow: hidden; */
 }
 
+
   /* ===============================
      REORDER SECTIONS ON MOBILE
      =============================== */
@@ -974,8 +977,8 @@ font-weight: normal; /* uses Altform Regular */;
 
   .first_shape_wrapper .img_box { order: 1; }        /* Vector3 image */
   .first_shape_wrapper .coverd_box { order: 2; }     /* Fancy Browse box */
-  .first_shape_wrapper .spots_box { order: 3; max-width: 336px; }      /* Top F&B Spots */
-  .first_shape_wrapper .station-card { order: 4; }   /* Station Card */
+  .first_shape_wrapper .spots_box { order: 3; max-width: 336px; left: 4% !important; }      /* Top F&B Spots */
+  .first_shape_wrapper .station-card { order: 4; left: -2% !important;}   /* Station Card */
 
   /* Optional spacing for neat stacking */
   .first_shape_wrapper > * {
@@ -1002,9 +1005,10 @@ font-weight: normal; /* uses Altform Regular */;
 
   /* Explicit order we want */
   .second_shape_wrapper .second_img_box   { order: 1 !important; }
-  .second_shape_wrapper .buzz-box         { order: 2 !important; }
+  .second_shape_wrapper .buzz-box         { order: 2 !important; max-width: 276.17px !important;
+        left: -8% !important; }
   .second_shape_wrapper .fact-box         { order: 3 !important; }
-  .second_shape_wrapper .buzz_box_orange  { order: 4 !important; }
+  .second_shape_wrapper .buzz_box_orange  { order: 4 !important; left: 0% !important; }
   .second_shape_wrapper .img_box_small    { order: 5 !important; }
   .second_shape_wrapper .fact_box_2       { order: 6 !important; }
 
@@ -1016,12 +1020,14 @@ font-weight: normal; /* uses Altform Regular */;
   .second_shape_wrapper .img_box_small,
   .second_shape_wrapper .fact_box_2 {
     position: relative !important;
-    width: 100% !important;
-    max-width: none !important;
     margin: 12px 0 ;
-    top: auto !important;
-    left: auto !important;
-    right: auto !important;
+   
+  }
+
+  .second_shape_wrapper .fact-box{
+       max-width: 223.06px !important;
+       left: 18% !important;
+      padding: 7.1px !important;
   }
 
   /* responsive images */
@@ -1040,6 +1046,8 @@ font-weight: normal; /* uses Altform Regular */;
 
   .third_shape_wrapper .fact-box {
     order: 1;
+    max-width: 223.06px !important;
+    left: 17% !important;
   }
 
   .third_shape_wrapper .img_box_03 {
@@ -1048,6 +1056,8 @@ font-weight: normal; /* uses Altform Regular */;
 
   .third_shape_wrapper .coverd_box {
     order: 3;
+    max-width: 276.17px !important;
+    left: 5% !important;
   }
 
   /* Reset absolute/relative positions for stacking */
@@ -1076,8 +1086,9 @@ font-weight: normal; /* uses Altform Regular */;
 
 
   .first_shape_wrapper .coverd_box {
-            padding: 13px;
-}
+        padding: 13px;
+        left: -9% !important;
+    }
 
 .list_block {
     margin-top: 30px;
@@ -1086,10 +1097,17 @@ font-weight: normal; /* uses Altform Regular */;
 .heading_box h2 {
     font-size: 29.43px !important;
 }
-.line-icon {
-
+.second_shape_wrapper .fact_box_2{
+max-width: 223.06px !important;
+padding: 7.1px !important;
 }
 
+.bootom_box .img_box_small {
+    position: relative;
+    margin-top: -250px;
+    margin-right: 0px;
+    transform: translateX(17%) !important;
+}
 }
 
 /* Tablet */
@@ -1105,9 +1123,8 @@ font-weight: normal; /* uses Altform Regular */;
     }
 
     .bootom_box .img_box_small {
-    position: relative;
-    margin-top: -250px;
-    margin-right: 0px;
+   
+    transform: translateX(0%);
 }
 
 
@@ -1938,11 +1955,11 @@ background-color: #FF9222;
   .second_shape_wrapper > *,
   .third_shape_wrapper > * {
     position: relative !important;
-    transform: none !important;
+    /* transform: none !important;
     left: 0 !important;
     top: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 100% !important; */
     margin: 0 auto;
   }
 
@@ -2291,10 +2308,10 @@ background-color: #FF9222;
   .third_shape_wrapper > * {
     position: relative !important;
     transform: none !important;
-    top: 0 !important;
+    /* top: 0 !important;
     left: 0 !important;
     width: 100% !important;
-    max-width: 100% !important;
+    max-width: 100% !important; */
     margin: 0 auto !important;
   }
 
@@ -2397,5 +2414,6 @@ background-color: #FF9222;
   mask-image: url('../img/mask-2.svg') !important;
  
 }
+
 
 
