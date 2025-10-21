@@ -632,7 +632,7 @@ font-weight: normal; /* uses Altform Regular */;
     margin-bottom: 0;
 }
 .button_block{
-    margin: 110px 0;
+    margin: 110px 0 154px;
     text-align: center;
 }
 .theem_btn {
@@ -1765,7 +1765,7 @@ padding: 7.1px !important;
     border-radius: 10px;
     position: absolute;
    left: 12%;
-    top: -11%;
+    top: -14%;
     z-index: 1;
 }
 
@@ -1867,8 +1867,8 @@ background-color: #FF9222;
 
 
 .button_block_vict{
-    margin-top: 250px !important; /* increase as much as needed */
-    margin-bottom: 100px !important; /* remove bottom margin */
+    margin-top: 264px !important; /* increase as much as needed */
+   margin-bottom: 146px !important;
 }
 
 
@@ -2241,6 +2241,10 @@ background-color: #FF9222;
 
 .number_box_south span {
     line-height: 110%;
+}
+
+.button_block_south{
+  margin: 0 0 154px !important;
 }
 
 
