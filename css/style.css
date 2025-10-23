@@ -1687,6 +1687,7 @@ padding: 7.1px !important;
   mask-position: center;
   mask-size: contain;
   overflow: hidden;
+  position: absolute;
 }
 
 .mask-video video {
