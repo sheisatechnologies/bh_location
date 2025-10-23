@@ -2566,13 +2566,18 @@ background-color: #FF9222;
 
 
 
-.mask-video-wrapper video:hover {
-  transform: scale(1.1);
-  animation: bounceZoom 0.6s ease-in-out;
-  position: relative;
-  z-index: 999999 !important; /* force above all */
+
+
+
+
+
+/* ensure video is positioned */
+.mask-video-wrapper video {
+  position: relative;   /* required for z-index to work */
+  z-index: 1;
 }
 
-
-
-
+/* when hovered: bring just the video above everything */
+.mask-video-wrapper:hover video {
+  z-index: 999999 !important;
+}
