@@ -2550,5 +2550,15 @@ background-color: #FF9222;
  
 }
 
+@media (min-width: 768px) {
+    .mt-md-7 {
+        margin-top: 4rem !important;
+    }
+
+      .mb-md-7 {
+        margin-bottom: 6rem !important;
+    }
+}
+
 
 
