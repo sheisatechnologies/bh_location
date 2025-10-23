@@ -2566,6 +2566,13 @@ background-color: #FF9222;
 
 
 
+.mask-video-wrapper:hover {
+  transform: scale(1.1);
+  animation: bounceZoom 0.6s ease-in-out;
+  position: relative;
+  z-index: 999999 !important; /* force above all */
+}
+
 
 
 
